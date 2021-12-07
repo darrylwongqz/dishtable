@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
 
 export default function Home() {
   return (
@@ -9,7 +10,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <main>
+        {/* NavBar */}
+        <NavBar />
+        {/* Hero Image */}
+
+        {/* Featured Carousel */}
+
+        {/* Cuisines */}
+      </main>
 
       {/* Footer */}
       <Footer />

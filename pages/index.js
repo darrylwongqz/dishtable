@@ -15,6 +15,12 @@ export default function Home({ featuredData, cuisineData }) {
       <Head>
         <title>DishTable: Book Your Next Meal</title>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <main>
@@ -65,6 +71,7 @@ export default function Home({ featuredData, cuisineData }) {
             </ButtonScrollOverlay>
           </section>
 
+          {/* Bottom CTA */}
           <LargeCard
             img="https://i.ibb.co/72gwwMp/photo-1511978293554-7b92f19bd77d-ixlib-rb-1-2.jpg"
             title="We know you're hungry"

@@ -1,7 +1,7 @@
 const HeroOverlay = () => {
   return (
     <div className="absolute w-full text-center top-1/3">
-      <p className="mb-5 text-xl font-bold text-white sm:text-5xl">
+      <p className="mb-5 text-5xl font-bold tracking-wide text-white font-cookie sm:text-7xl">
         It's time to treat yourself.
       </p>
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="items-center justify-center w-full h-40">
-      <div className="bg-red-700">
+      <div className="bg-red-600">
         <div className="grid grid-cols-1 px-32 mx-auto sm:grid-cols-2 md:grid-cols-4 gap-y-10 py-14 max-w-7xl">
           <div className="space-y-4 text-xs text-white">
             <h5 className="text-sm font-bold">LOCATION</h5>
@@ -61,7 +61,7 @@ const Footer = () => {
             <p className="transition duration-300 ease-out transform cursor-pointer hover:scale-105 hover:translate-x-2 hover:font-semibold">
               Build using Next.js
             </p>
-            <p className="transition duration-300 ease-out transform hover:scale-105 hover:translate-x-2 hover:font-semibold">
+            <p className="transition duration-300 ease-out transform hover:underline hover:scale-105 hover:translate-x-2 hover:font-semibold">
               <a
                 href="https://github.com/darrylwongqz/dishtable"
                 target="_blank"
@@ -71,7 +71,7 @@ const Footer = () => {
               </a>
             </p>
 
-            <p className="transition duration-300 ease-out transform hover:scale-105 hover:translate-x-2 hover:font-semibold">
+            <p className="transition duration-300 ease-out transform hover:underline hover:scale-105 hover:translate-x-2 hover:font-semibold">
               <a
                 href="https://github.com/atulnk1/restaurant-app-e"
                 target="_blank"

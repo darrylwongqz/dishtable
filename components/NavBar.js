@@ -22,11 +22,23 @@ const NavBar = () => {
       </div>
 
       {/* Middle Search Bar */}
-      <div>
-        <input placeholder="Start your search" />
+      <div className="flex items-center py-2 rounded-full md:border-2 md:shadow-md">
+        <input
+          className="flex-grow pl-5 text-sm bg-transparent outline-none"
+          placeholder="Start your search"
+        />
+        <SearchIcon className="hidden h-8 p-2 text-white bg-red-600 rounded-full cursor-pointer md:inline-flex md:mx-2" />
       </div>
 
       {/* Right */}
+      <div className="flex items-center justify-end space-x-4 text-gray-500">
+        <GlobeAltIcon class="h-6 cursor-pointer" />
+
+        <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
+          <MenuIcon className="h-6 " />
+          <UserCircleIcon className="h-6 text-red-600" />
+        </div>
+      </div>
     </header>
   );
 };

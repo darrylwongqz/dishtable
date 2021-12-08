@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { costConverter } from "../utils/utils";
 
-const MediumCard = ({ img, title, cost, description }) => {
+const FeatureCard = ({ img, title, cost, description }) => {
   const truncatedTitle = title.substring(0, 30);
 
   const convertedCost = costConverter(cost);
@@ -19,11 +19,11 @@ const MediumCard = ({ img, title, cost, description }) => {
       <p className="absolute text-yellow-200 bg-black rounded-full top-3 right-2 ">
         {convertedCost}
       </p>
-      <h3 className="absolute z-20 flex-wrap px-2 text-lg font-semibold text-white bg-red-600 shadow-2xl bg-opacity-90 rounded-xl h-7 left-3 bottom-3">
+      <h3 className="absolute z-20 flex-wrap px-2 text-lg font-semibold text-white bg-red-600 shadow-2xl rounded-xl h-7 left-3 bottom-3">
         {title.length < 30 ? title : truncatedTitle + "..."}
       </h3>
     </div>
   );
 };
 
-export default MediumCard;
+export default FeatureCard;

@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import axios from "axios";
 import CuisineCard from "../components/CuisineCard";
 import ButtonScrollOverlay from "../components/ButtonScrollOverlay";
+import LargeCard from "../components/LargeCard";
 
 export default function Home({ featuredData, cuisineData }) {
   console.log(cuisineData);
@@ -62,9 +63,14 @@ export default function Home({ featuredData, cuisineData }) {
                 />
               ))}
             </ButtonScrollOverlay>
-
-            <div className="flex p-3 -ml-3 space-x-3 overflow-scroll scrollbar-hide"></div>
           </section>
+
+          <LargeCard
+            img="https://i.ibb.co/72gwwMp/photo-1511978293554-7b92f19bd77d-ixlib-rb-1-2.jpg"
+            title="We know you're hungry"
+            description="Book your next meal now"
+            buttonText="Book now"
+          />
         </main>
       </main>
 

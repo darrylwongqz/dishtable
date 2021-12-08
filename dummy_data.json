@@ -1,0 +1,56 @@
+[
+    {
+    "id": 1,
+    "restaurant_name": "Pizza Plaza",
+    "restaurant_description": "The original Pizza Plaza opened in 1990!",
+    "restaurant_image": [
+    "https://i.ibb.co/VmQ70j6/photo-1414235077428-338989a2e8c0-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 3
+    },
+    {
+    "id": 2,
+    "restaurant_name": "Olive Garden",
+    "restaurant_description": "America's favorite Italian (chain) restaurant now in Singapore. ",
+    "restaurant_image": [
+    "https://i.ibb.co/ZLSQNFL/photo-1502301103665-0b95cc738daf-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 4
+    },
+    {
+    "id": 3,
+    "restaurant_name": "Blackpink Cafe",
+    "restaurant_description": "The best cafe ever",
+    "restaurant_image": [
+    "https://i.ibb.co/VLh9b9g/photo-1481833761820-0509d3217039-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 2
+    },
+    {
+    "id": 4,
+    "restaurant_name": "Laksa Lisa",
+    "restaurant_description": "Laksa by Lalisa Manoban",
+    "restaurant_image": [
+    "https://i.ibb.co/X3vFL8s/photo-1633271332313-04df64c0105b-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 1
+    },
+    {
+    "id": 5,
+    "restaurant_name": "Noti Roti",
+    "restaurant_description": "Roti at its finest",
+    "restaurant_image": [
+    "https://i.ibb.co/4VmjxbW/photo-1517686469429-8bdb88b9f907-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 1
+    },
+    {
+    "id": 6,
+    "restaurant_name": "Peckish for Some Turkish",
+    "restaurant_description": "Oh its a delight",
+    "restaurant_image": [
+    "https://i.ibb.co/3zgzxLQ/photo-1532636875304-0c89119d9b4d-ixlib-rb-1-2.jpg"
+    ],
+    "restaurant_cost": 1
+    }
+    ]

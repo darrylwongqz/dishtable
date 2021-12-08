@@ -32,7 +32,7 @@ const NavBar = () => {
 
       {/* Right */}
       <div className="flex items-center justify-end space-x-4 text-gray-500">
-        <GlobeAltIcon class="h-6 cursor-pointer" />
+        <GlobeAltIcon className="h-6 cursor-pointer" />
 
         <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
           <MenuIcon className="h-6 " />

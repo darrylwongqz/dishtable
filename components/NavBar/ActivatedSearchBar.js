@@ -66,7 +66,7 @@ const ActivatedSearchBar = () => {
         <div
           className={`${
             searchBarBgGray && "bg-gray-100"
-          } flex justify-center border rounded-full border-slate-100`}
+          } flex justify-center border rounded-full border-slate-100 h-16`}
         >
           {/* Guests */}
           <Popover className="relative">
@@ -117,16 +117,25 @@ const ActivatedSearchBar = () => {
 
           {/* Calendar date */}
 
-          <div
-            onClick={handleDateSelected}
-            className="flex items-center justify-center flex-grow h-16 px-2 py-1 transition duration-150 ease-out bg-white rounded-full cursor-pointer min-w-[10rem] hover:bg-gray-200 hover:bg-opacity-75"
-          >
-            <h3>Pick a Date</h3>
-          </div>
+          {/* Come back to this ********************************************************************** */}
 
-          <div className="flex items-center">
-            <h1 className="text-gray-200">|</h1>
-          </div>
+          <Popover className="relative">
+            {({ open }) => (
+              <>
+                <div onClick={handleDateSelected}>
+                  <Popover.Button className="flex items-center justify-center flex-grow h-16 px-2 py-1 transition duration-150 ease-out bg-white rounded-full cursor-pointer min-w-[10rem] hover:bg-gray-200 hover:bg-opacity-75">
+                    <h3>Pick a Date</h3>
+                  </Popover.Button>
+
+                  <div className="flex items-center">
+                    <h1 className="text-gray-200">|</h1>
+                  </div>
+                </div>
+              </>
+            )}
+          </Popover>
+
+          {/* Come back to this ********************************************************************** */}
 
           {/* Timeslot */}
 

@@ -27,46 +27,47 @@
 
 // export default GuestModal;
 
-{
-  /* <Popover className="relative">
-{({ open }) => (
-  <>
-    <div onClick={handleGuestSelected}>
-      <Popover.Button
-        className={
-          guestSelected && open
-            ? `flex items-center justify-center border-3 flex-grow h-16 px-2 py-1 transition bg-white shadow-2xl duration-150 ease-out rounded-full cursor-pointer min-w-[10rem] `
-            : `flex items-center justify-center flex-grow h-16 px-2 py-1 transition duration-150 ease-out rounded-full cursor-pointer min-w-[10rem] hover:bg-gray-200 hover:bg-opacity-75`
-        }
-      >
-        Guests
-      </Popover.Button>
-    </div>
-
-    <Popover.Panel className="absolute z-10 p-5 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
-      <div className="flex items-center space-x-4">
-        <button onClick={decrementGuestCount}>
-          <MinusCircleIcon
-            className={
-              guestCount > 0
-                ? `h-8 text-gray-500`
-                : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-            }
-          />
-        </button>
-        <p>{guestCount}</p>
-        <button onClick={incrementGuestCount}>
-          <PlusCircleIcon
-            className={
-              guestCount < 5
-                ? `h-8 text-gray-500`
-                : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-            }
-          />
-        </button>
+/*
+<Popover className="relative">
+  {({ open }) => (
+    <>
+      <div onClick={handleGuestSelected}>
+        <Popover.Button
+          className={
+            guestSelected && open
+              ? `flex items-center justify-center border-3 flex-grow h-16 px-2 py-1 transition bg-white shadow-2xl duration-150 ease-out rounded-full cursor-pointer min-w-[10rem] `
+              : `flex items-center justify-center flex-grow h-16 px-2 py-1 transition duration-150 ease-out rounded-full cursor-pointer min-w-[10rem] hover:bg-gray-200 hover:bg-opacity-75`
+          }
+        >
+          Guests
+        </Popover.Button>
       </div>
-    </Popover.Panel>
-  </>
-)}
-</Popover> */
-}
+
+      <Popover.Panel className="absolute z-10 p-5 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
+        <div className="flex items-center space-x-4">
+          <button onClick={decrementGuestCount}>
+            <MinusCircleIcon
+              className={
+                guestCount > 0
+                  ? `h-8 text-gray-500`
+                  : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
+              }
+            />
+          </button>
+          <p>{guestCount}</p>
+          <button onClick={incrementGuestCount}>
+            <PlusCircleIcon
+              className={
+                guestCount < 5
+                  ? `h-8 text-gray-500`
+                  : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
+              }
+            />
+          </button>
+        </div>
+      </Popover.Panel>
+    </>
+  )}
+</Popover>;
+
+*/

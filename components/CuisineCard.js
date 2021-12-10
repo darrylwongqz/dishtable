@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { costConverter } from "../utils/utils";
+import { costConverter } from "../lib/cardUtils";
 
 const FeatureCard = ({ cuisineType, img }) => {
   return (

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import FeatureCard from "../components/FeatureCard";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 import axios from "axios";
 import CuisineCard from "../components/CuisineCard";
 import ButtonScrollOverlay from "../components/ButtonScrollOverlay";

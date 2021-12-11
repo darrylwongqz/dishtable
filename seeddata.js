@@ -1,3 +1,5 @@
+//https://jsonkeeper.com/b/MXXS
+
 [
   {
     restaurant_name: "Pizza Ability",
@@ -213,7 +215,7 @@
     ],
     restaurant_opening_hours: "Open from 11 AM to 11 PM",
     restaurant_facilities: ["Parking", "Wheelchair Access"],
-    restaurant_cuisine: ["Singpaorean", "Seafood"],
+    restaurant_cuisine: ["Singaporean", "Seafood"],
     restaurant_cost: 4,
     restaurant_start_date: "01-12-2021",
     restaurant_end_date: "28-02-2022",

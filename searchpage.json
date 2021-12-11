@@ -1,0 +1,117 @@
+[
+    {
+        "id": 1,
+        "restaurant_name": "Pizza Ability",
+        "restaurant_description": "Because we are pros at making the best Roman Pizza in the world. Come try it out for yourself!",
+        "restaurant_cuisine": [
+            "Italian",
+            "Pizza"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.3083087,
+        "restaurant_location_long": 103.8620241,
+        "restaurant_cost": 3,
+        "restaurant_image": [
+                  "https://i.ibb.co/bbwKyfb/photo-1561666383-903d234a16b4-ixlib-rb-1-2.jpg",
+      "https://i.ibb.co/PGxY2nQ/photo-1490717064594-3bd2c4081693-ixlib-rb-1-2.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    },
+    {
+        "id": 2,
+        "restaurant_name": "It Laksa Good",
+        "restaurant_description": "Because Laksa has never looked this good. An original family recepie from 1889",
+        "restaurant_cuisine": [
+            "Malaysian", "Asian"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.3083248,
+        "restaurant_location_long": 103.8607028,
+        "restaurant_cost": 2,
+        "restaurant_image": [
+            "https://i.ibb.co/vsvb2JL/photo-1632057153728-9ee20b615f8d-ixlib-rb-1-2.jpg",
+      "https://i.ibb.co/5LvWt9q/photo-1633271332313-04df64c0105b-ixlib-rb-1-2.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    },
+    {
+        "id": 3,
+        "restaurant_name": "Blackpink Cafe",
+        "restaurant_description": "An unofficial cafe to celebrate everything Blackpink. Enjoy our brunch deals while you discuss about you favorite Blackpink member. Answer, they are all great.",
+        "restaurant_cuisine": [
+            "International", "Cafe"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.3078477,
+        "restaurant_location_long": 103.8590937,
+        "restaurant_cost": 4,
+        "restaurant_image": [
+                "https://i.ibb.co/q13zQft/blackpink-pop-up-store3.jpg",
+      "https://i.ibb.co/8BzzG7M/337535dd5db5655fbe3b1e03b6e7d219.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    },
+    {
+        "id": 4,
+        "restaurant_name": "Wee Yu Mee Pok",
+        "restaurant_description": "Michelin Star Chef Yu Wee has wined and dined at the best restaurants. Now he has returned to Singapore to open his very own Mee Pok Restaurant.",
+        "restaurant_cuisine": [
+            "Chinese", "Teochew"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.3104193,
+        "restaurant_location_long": 103.8635313,
+        "restaurant_cost": 3,
+        "restaurant_image": [
+            "https://i.ibb.co/Jz9sZdT/1200px-Simple-mee-pok.jpg",
+      "https://i.ibb.co/PTkh1Sp/photo.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    },
+    {
+        "id": 5,
+        "restaurant_name": "Arabian Nights",
+        "restaurant_description": "Be mesmerised by the wonderful selection of Middle Eastern delights, made from the freshest ingredients with love.",
+        "restaurant_cuisine": [
+            "Middle Eastern", "Halal"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.311199,
+        "restaurant_location_long": 103.8611239,
+        "restaurant_cost": 2,
+        "restaurant_image": [
+          "https://i.ibb.co/XpSwj8d/photo-1541754202-9eb0e8c13b6c-ixlib-rb-1-2.jpg",
+      "https://i.ibb.co/PYcJpkf/photo-1611765438425-519200c7ec2e-ixlib-rb-1-2.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    },
+    {
+        "id": 6,
+        "restaurant_name": "Burger Spree",
+        "restaurant_description": "Burgers, Sandwiches and Sliders - we have got them all! When you are free, eat at Burger Spree",
+        "restaurant_cuisine": [
+            "Burgers", "American"
+        ],
+        "restaurant_location_city": "Singapore",
+        "restaurant_location_country": "Singapore",
+        "restaurant_location_lat": 1.3086478,
+        "restaurant_location_long": 103.8580674,
+        "restaurant_cost": 3,
+        "restaurant_image": [
+                  "https://i.ibb.co/tzqynj8/photo-1593462386344-bc7ffba51a1e-ixlib-rb-1-2.png",
+      "https://i.ibb.co/jLTWrx4/photo-1600891964751-dc0cc8611e47-ixlib-rb-1-2.jpg"
+        ],
+        "restaurant_average_seating_time": 60,
+        "restaurant_status": "open"
+    }
+]

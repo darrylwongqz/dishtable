@@ -4,8 +4,7 @@ import {
   GlobeAltIcon,
   MenuIcon,
   UserCircleIcon,
-  UsersIcon,
-  SearchCircleIcon,
+  ChevronDoubleUpIcon,
 } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import ActivatedSearchBar from "./ActivatedSearchBar";
@@ -53,8 +52,14 @@ const NavBar = () => {
 
       {/* Middle Search Bar */}
       {isSearchActivated ? (
-        <div className="flex justify-center">
+        <div className="flex items-center justify-center space-x-2">
           <h1 className="font-semibold">Choose your reservation criteria</h1>
+          {/* <button
+            onClick={() => setIsSearchActivated(false)}
+            className="animate-bounce"
+          >
+            <ChevronDoubleUpIcon className="w-8 h-6 p-1 text-white bg-red-600 rounded-lg animate-pulse" />
+          </button> */}
         </div>
       ) : (
         <div className="flex justify-center ">
@@ -64,25 +69,14 @@ const NavBar = () => {
               solidNavBar
                 ? `flex items-center py-2 rounded-full md:border md:shadow-md justify-between flex-grow max-w-xs cursor-pointer`
                 : `hidden`
-              // `flex items-center py-2 rounded-full md:border-2 md:border-transparent`
             }
           >
-            {/* <input
-            className={
-              solidNavBar
-                ? `flex-grow pl-5 text-sm bg-transparent outline-none`
-                : `hidden`
-              // `flex-grow pl-5 text-transparent placeholder-transparent bg-transparent outline-none cursor-default `
-            }
-            placeholder={solidNavBar ? `Start your search` : ""}
-          /> */}
             <p className="pl-5 text-sm font-semibold">Start your search</p>
             <SearchIcon
               className={
                 solidNavBar
                   ? `hidden h-8 p-2 text-white bg-red-600 rounded-full cursor-pointer md:inline-flex md:mx-2`
                   : ``
-                // `hidden h-8 p-2 text-transparent bg-transparent border-transparent border rounded-full cursor-default md:inline-flex md:mx-2 `
               }
             />
           </div>
@@ -107,6 +101,18 @@ const NavBar = () => {
 
       {/* Activated Search Bar */}
       {isSearchActivated && <ActivatedSearchBar />}
+
+      {/* Exit button that toggles isSearchActivated back to false */}
+      {isSearchActivated && (
+        <button
+          onClick={() => setIsSearchActivated(false)}
+          className="absolute bottom-0 right-0 flex items-center text-white bg-red-600 rounded-tl-lg animate-pulse"
+        >
+          <ChevronDoubleUpIcon className="w-8 h-6 p-1 text-white rounded-tl-lg" />
+          <p className="text-sm">minimize</p>
+          <ChevronDoubleUpIcon className="w-8 h-6 p-1 text-white rounded-tl-lg" />
+        </button>
+      )}
     </header>
   );
 };

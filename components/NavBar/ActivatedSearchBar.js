@@ -13,40 +13,18 @@ const ActivatedSearchBar = () => {
   const [searchBarBgGray, setSearchBarBgGray] = useState(false);
   const [guestCount, setGuestCount] = useState(0);
 
-  const handleGuestSelected = () => {
-    console.log("handleGuestSelected fired");
+  const handleFieldSelected = (
+    guest = false,
+    date = false,
+    time = false,
+    dynamicSearch = false
+  ) => {
+    console.log("handleFieldSelected fired");
     setSearchBarBgGray(true);
-    setGuestSelected(true);
-    setDateSelected(false);
-    setTimeSelected(false);
-    setDynamicSearchSelected(false);
-  };
-
-  const handleDateSelected = () => {
-    console.log("handleDateSelected fired");
-    setSearchBarBgGray(true);
-    setGuestSelected(false);
-    setDateSelected(true);
-    setTimeSelected(false);
-    setDynamicSearchSelected(false);
-  };
-
-  const handleTimeSelected = () => {
-    console.log("handleTimeSelected fired");
-    setSearchBarBgGray(true);
-    setGuestSelected(false);
-    setDateSelected(false);
-    setTimeSelected(true);
-    setDynamicSearchSelected(false);
-  };
-
-  const handleDynamicSearchSelected = () => {
-    console.log("handleDynamicSearchSelected fired");
-    setSearchBarBgGray(true);
-    setGuestSelected(false);
-    setDateSelected(false);
-    setTimeSelected(false);
-    setDynamicSearchSelected(true);
+    setGuestSelected(guest);
+    setDateSelected(date);
+    setTimeSelected(time);
+    setDynamicSearchSelected(dynamicSearch);
   };
 
   const incrementGuestCount = () => {
@@ -82,10 +60,9 @@ const ActivatedSearchBar = () => {
             {({ open, close }) => (
               <>
                 <div
-                  onClick={handleGuestSelected}
                   onClick={
                     !open
-                      ? handleGuestSelected
+                      ? () => handleFieldSelected(true, false, false, false)
                       : () => {
                           setSearchBarBgGray(false);
                           setGuestSelected(false);
@@ -149,10 +126,9 @@ const ActivatedSearchBar = () => {
             {({ open }) => (
               <>
                 <div
-                  onClick={handleDateSelected}
                   onClick={
                     !open
-                      ? handleDateSelected
+                      ? () => handleFieldSelected(false, true, false, false)
                       : () => {
                           setSearchBarBgGray(false);
                           setDateSelected(false);
@@ -208,10 +184,9 @@ const ActivatedSearchBar = () => {
             {({ open }) => (
               <>
                 <div
-                  onClick={handleTimeSelected}
                   onClick={
                     !open
-                      ? handleTimeSelected
+                      ? () => handleFieldSelected(false, false, true, false)
                       : () => {
                           setSearchBarBgGray(false);
                           setTimeSelected(false);
@@ -274,10 +249,9 @@ const ActivatedSearchBar = () => {
                   }
                 >
                   <div
-                    onClick={handleDynamicSearchSelected}
                     onClick={
                       !open
-                        ? handleDynamicSearchSelected
+                        ? () => handleFieldSelected(false, false, false, true)
                         : () => {
                             setSearchBarBgGray(false);
                             setDynamicSearchSelected(false);

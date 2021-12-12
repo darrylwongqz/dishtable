@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { costConverter, cuisineColorParser } from "../lib/cardUtils";
+import { useRouter } from "next/router";
 
 const InfoCard = ({
   img,
@@ -9,13 +10,22 @@ const InfoCard = ({
   cuisineType,
   city,
   country,
+  id,
 }) => {
+  const router = useRouter();
   const convertedCost = costConverter(cost);
   const parsedCuisineStyleClass1 = cuisineColorParser(cuisineType[0]);
   const parsedCuisineStyleClass2 = cuisineColorParser(cuisineType[1]);
 
+  const redirectToRestaurantDetailPage = () => {
+    router.push(`restaurants/${id}`);
+  };
+
   return (
-    <div className="flex px-4 pr-4 transition duration-200 ease-out border border-gray-200 shadow-lg cursor-pointer rounded-xl py-7 hover:opacity-80 hover:shadow-2xl ">
+    <div
+      onClick={redirectToRestaurantDetailPage}
+      className="flex px-4 pr-4 transition duration-200 ease-out border border-gray-200 shadow-lg cursor-pointer rounded-xl py-7 hover:opacity-80 hover:shadow-2xl "
+    >
       <div className="relative flex-shrink-0 w-40 h-24 overflow-hidden rounded-2xl md:h-52 md:w-80 ">
         <Image
           src={img}

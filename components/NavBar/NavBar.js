@@ -9,11 +9,14 @@ import {
 import { useEffect, useState } from "react";
 import ActivatedSearchBar from "./ActivatedSearchBar";
 import { Listbox } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
   const [solidNavBar, setSolidNavBar] = useState(true); // remember to change to false after done with search bar dev
   const [isSearchActivated, setIsSearchActivated] = useState(false); // remember to change to false after done with search bar dev
   const [geo, setGeo] = useState("SG");
+  const [searchInput, setSearchInput] = useState("Start your search");
+  const router = useRouter();
   // const changeNavBackground = () => { // remember to uncomment after done with search bar dev
   //   if (window.scrollY >= 200) {
   //     setSolidNavBar(true);
@@ -25,6 +28,24 @@ const NavBar = () => {
   // useEffect(() => {
   //   window.addEventListener("scroll", changeNavBackground);
   // }, []);
+
+  useEffect(() => {
+    switch (router.pathname) {
+      case "/":
+        return setSearchInput("Start your search");
+      case "/search":
+        return setSearchInput(
+          `${router.query.city} | ${router.query.date} |  ${
+            router.query.time
+          } | ${router.query.party_size} ${
+            Number(router.query.party_size) === 1 ? "guest" : "guests"
+          }`
+        );
+
+      default:
+        return setSearchInput("Start your search");
+    }
+  }, []);
 
   return (
     <header
@@ -72,7 +93,7 @@ const NavBar = () => {
                 : `hidden`
             }
           >
-            <p className="pl-5 text-sm font-semibold">Start your search</p>
+            <p className="pl-5 text-sm font-semibold">{searchInput}</p>
             <SearchIcon
               className={
                 solidNavBar

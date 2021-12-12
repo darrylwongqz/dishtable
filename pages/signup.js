@@ -2,12 +2,15 @@ import NavBar from "../components/NavBar/NavBar";
 import Link from "next/link";
 import { useState } from "react";
 
-const Login = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const isInvalid = password === "" || email === "";
+  const isInvalid =
+    password === "" || email === "" || password !== confirmPassword;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,26 +19,28 @@ const Login = () => {
     // hook up backend here
     // on response ok
     setEmail("");
+    setFirstName("");
+    setLastName("");
     setPassword("");
+    setConfirmPassword("");
   };
 
   return (
     <>
       <NavBar />
       <main className="flex flex-col items-center justify-center h-screen m-auto">
-        <div className="flex flex-col items-center mb-5 space-y-5">
-          <h1 className="text-4xl font-bold">Log in to continue</h1>
-          <div className="flex flex-col space-y-1">
-            <p className="text-center">Welcome Back!</p>
-            <p>
-              Don't have an account yet?{" "}
-              <span className="text-red-600 cursor-pointer hover:underline">
-                <Link href="/signup">
-                  <a>Sign up</a>
-                </Link>
-              </span>
-            </p>
-          </div>
+        <div className="flex flex-col items-center mb-10 space-y-5">
+          <h1 className="text-4xl font-bold">Sign up to continue</h1>
+          <p className="text-center">
+            Create a free account to book and manage your culinary experiences.
+            <br />
+            Already have an account?{" "}
+            <span className="text-red-600 cursor-pointer hover:underline">
+              <Link href="/login">
+                <a>Log in</a>
+              </Link>
+            </span>
+          </p>
         </div>
 
         <form
@@ -50,13 +55,33 @@ const Login = () => {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />
-
+            <input
+              type="text"
+              placeholder="First Name"
+              className="w-full px-4 py-2 bg-gray-200"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Last Name"
+              className="w-full px-4 py-2 bg-gray-200"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+            />
             <input
               type="password"
               placeholder="Password"
               className="w-full px-4 py-2 bg-gray-200"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="w-full px-4 py-2 bg-gray-200"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
             />
           </div>
           <div className="flex flex-col space-y-3">
@@ -71,10 +96,10 @@ const Login = () => {
               submit
             </button>
             <p className="text-center">
-              New to DishTable?{" "}
+              Already have an account?{" "}
               <span className="text-red-600 cursor-pointer hover:underline">
-                <Link href="/signup">
-                  <a>Create an account</a>
+                <Link href="/login">
+                  <a>Log in</a>
                 </Link>
               </span>
             </p>
@@ -85,4 +110,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

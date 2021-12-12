@@ -45,6 +45,7 @@ const Search = ({ searchResults }) => {
               }) => (
                 <InfoCard
                   key={id}
+                  id={id}
                   img={restaurant_image[0]}
                   title={restaurant_name}
                   description={restaurant_description}

@@ -25,7 +25,7 @@ const Map = ({ searchResults }) => {
     // longitude: center.longitude,
     latitude: searchResults[0].restaurant_location_lat,
     longitude: searchResults[0].restaurant_location_long,
-    zoom: 11,
+    zoom: 13,
   });
 
   return (

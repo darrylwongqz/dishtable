@@ -1,38 +1,38 @@
 import axios from "axios";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
 import Map from "../components/Map";
 import NavBar from "../components/NavBar/NavBar";
 import { format } from "date-fns";
+import PaginationBar from "../components/PaginationBar";
 
 const Search = ({ searchResults }) => {
-  //   const {
-  //     location,
-  //     startDate = new Date(),
-  //     endDate = new Date(),
-  //     noOfGuests,
-  //   } = Router.query;
+  const router = useRouter();
+  const { city, date, party_size, time } = router.query;
 
-  //   const formattedStartDate = format(new Date(startDate), "dd MMMM yy");
-  //   const formattedEndDate = format(new Date(endDate), "dd MMMM yy");
+  // console.log("router object on search page", router);
 
-  //   const range = `${formattedStartDate} - ${formattedEndDate}`;
+  // console.log(city, date, party_size, time);
+  // console.log("searchResults on search page", searchResults);
 
-  console.log(searchResults);
   return (
     <div>
       <NavBar />
       <main className="flex">
         <section className="flex-grow px-6 mt-36">
-          <p className="text-xs">300+ results - date - time - 3 guests</p>
+          <p className="text-xs">
+            {searchResults?.length}{" "}
+            {searchResults?.length < 2 ? `result` : `results`} - {date} - {time}{" "}
+            - {party_size} {Number(party_size) === 1 ? `guest` : `guests`}
+          </p>
           <h1 className="mt-2 mb-6 text-3xl font-semibold">
-            Restaurants in Singapore
+            Restaurants in {city}
           </h1>
 
           {/* Restaurant List Card Section */}
           <div className="flex flex-col space-y-4">
-            {searchResults.map(
+            {searchResults?.map(
               ({
                 restaurant_image,
                 restaurant_name,
@@ -41,8 +41,10 @@ const Search = ({ searchResults }) => {
                 restaurant_cuisine,
                 restaurant_location_city,
                 restaurant_location_country,
+                id,
               }) => (
                 <InfoCard
+                  key={id}
                   img={restaurant_image[0]}
                   title={restaurant_name}
                   description={restaurant_description}
@@ -55,6 +57,7 @@ const Search = ({ searchResults }) => {
             )}
             <div className="pb-5 " />
           </div>
+          <PaginationBar />
         </section>
         {/* Map Section */}
         <section className="hidden xl:inline-flex xl:w-2/3">

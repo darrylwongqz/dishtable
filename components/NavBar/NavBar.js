@@ -8,11 +8,12 @@ import {
 } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import ActivatedSearchBar from "./ActivatedSearchBar";
+import { Listbox } from "@headlessui/react";
 
 const NavBar = () => {
   const [solidNavBar, setSolidNavBar] = useState(true); // remember to change to false after done with search bar dev
   const [isSearchActivated, setIsSearchActivated] = useState(false); // remember to change to false after done with search bar dev
-
+  const [geo, setGeo] = useState("SG");
   // const changeNavBackground = () => { // remember to uncomment after done with search bar dev
   //   if (window.scrollY >= 200) {
   //     setSolidNavBar(true);
@@ -91,7 +92,40 @@ const NavBar = () => {
             : `flex items-center justify-end space-x-4 text-white`
         }
       >
-        <GlobeAltIcon className={`h-6 cursor-pointer`} />
+        <Listbox as="div" value={geo} onChange={setGeo} className="relative">
+          <Listbox.Button>
+            <div className="flex space-x-1">
+              <GlobeAltIcon className={`h-6 cursor-pointer`} />
+              <h3>{geo}</h3>
+            </div>
+          </Listbox.Button>
+          <Listbox.Options className="absolute space-y-2 bg-white shadow-2xl left-4 top-10 rounded-xl z-100">
+            <Listbox.Option
+              className="px-3 py-1 bg-white rounded-xl hover:bg-gray-200"
+              value="SG"
+            >
+              {"SG"}
+            </Listbox.Option>
+            <Listbox.Option
+              className="px-3 py-1 bg-white rounded-xl hover:bg-gray-200"
+              value="KR"
+            >
+              {"KR"}
+            </Listbox.Option>
+            <Listbox.Option
+              className="px-3 py-1 bg-white rounded-xl hover:bg-gray-200"
+              value="FR"
+            >
+              {"FR"}
+            </Listbox.Option>
+            <Listbox.Option
+              className="px-3 py-1 bg-white rounded-xl hover:bg-gray-200"
+              value="UK"
+            >
+              {"UK"}
+            </Listbox.Option>
+          </Listbox.Options>
+        </Listbox>
 
         <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
           <MenuIcon className="h-6 " />
@@ -100,7 +134,7 @@ const NavBar = () => {
       </div>
 
       {/* Activated Search Bar */}
-      {isSearchActivated && <ActivatedSearchBar />}
+      {isSearchActivated && <ActivatedSearchBar geo={geo} />}
 
       {/* Exit button that toggles isSearchActivated back to false */}
       {isSearchActivated && (

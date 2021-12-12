@@ -1,17 +1,78 @@
 import { useState, useEffect } from "react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
-import GuestModal from "./GuestModal";
 import { Popover, Transition } from "@headlessui/react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
+import { cityMatcher } from "../../lib/searchBarUtils";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { Calendar } from "react-date-range";
+import { format } from "date-fns";
 
-const ActivatedSearchBar = () => {
+// *************** creating the booking times array ****************************************
+const x = 15; //minutes interval
+const bookingTimes = []; // time array
+let tt = 9 * 60; // start time
+// const ap = ["AM", "PM"]; // AM-PM
+
+//loop to increment the time and push results in array
+for (let i = 0; tt < 23.25 * 60; i++) {
+  let hh = Math.floor(tt / 60); // getting hours of day in 0-24 format
+  let mm = tt % 60; // getting minutes of the hour in 0-55 format
+  bookingTimes[i] = ("0" + (hh % 24)).slice(-2) + ":" + ("0" + mm).slice(-2);
+  // ap[Math.floor(hh / 12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
+  tt = tt + x;
+}
+
+// *************** creating the booking times array ****************************************
+
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv component below vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+const ActivatedSearchBar = ({ geo }) => {
+  const [searchBarBgGray, setSearchBarBgGray] = useState(false);
+  const router = useRouter();
+
+  //Popover States
   const [guestSelected, setGuestSelected] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
   const [timeSelected, setTimeSelected] = useState(false);
   const [dynamicSearchSelected, setDynamicSearchSelected] = useState(false);
-  const [searchBarBgGray, setSearchBarBgGray] = useState(false);
-  const [guestCount, setGuestCount] = useState(0);
+
+  //Input States
+  const [guestCount, setGuestCount] = useState(0); // Remember to set validation as 0 cannot submit
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [dynamicSearchInput, setDynamicSearchInput] = useState("");
+  const [searchFlag, setSearchFlag] = useState("");
+
+  const convertedCity = cityMatcher(geo);
+
+  const resetInput = () => {
+    setGuestCount(0);
+    setGuestCount(0);
+    setDate("");
+    setTime("12:00");
+    setDynamicSearchInput("");
+    setSearchFlag("");
+  };
+
+  const search = () => {
+    if (!dynamicSearchInput) return;
+    router.push({
+      pathname: "/search",
+      query: {
+        city: convertedCity,
+        date: date.toString(),
+        time: time,
+        party_size: guestCount,
+        search_term: dynamicSearchInput,
+        search_flag: searchFlag,
+        p: 1,
+      },
+    });
+    resetInput();
+  };
 
   const handleFieldSelected = (
     guest = false,
@@ -41,23 +102,35 @@ const ActivatedSearchBar = () => {
     return;
   };
 
-  console.log("searchBarBgGray", searchBarBgGray);
-  console.log("guestSelected", guestSelected);
-  console.log("dateSelected", dateSelected);
-  console.log("timeSelected", timeSelected);
-  console.log("dynamicSearchSelected", dynamicSearchSelected);
+  const handleCalendarSelect = (selectedDate) => {
+    const selectedDay = selectedDate.getDate();
+    const selectedMonth = selectedDate.getMonth();
+    const selectedYear = selectedDate.getFullYear();
+    const formattedSelectedDate = format(
+      new Date(selectedYear, selectedMonth, selectedDay),
+      "dd-MM-yyyy"
+    );
+    setDate(formattedSelectedDate);
+  };
+
+  // console.log(typeof date);
+  // console.log("searchBarBgGray", searchBarBgGray);
+  // console.log("guestSelected", guestSelected);
+  // console.log("dateSelected", dateSelected);/
+  // console.log("timeSelected", timeSelected);
+  // console.log("dynamicSearchSelected", dynamicSearchSelected);
 
   return (
     <Fragment>
-      <div className="absolute z-50 flex justify-center w-full mx-auto mt-4 top-16">
+      <div className="absolute z-50 flex justify-center w-full mx-auto mt-4 top-16 ">
         <div
           className={`${
             searchBarBgGray && "bg-gray-100"
           } flex justify-center border-[0.3px] rounded-full border-slate-100 h-16`}
         >
-          {/* Guests */}
+          {/* ********************************************************* Guests Start ********************************************************* */}
           <Popover className="relative">
-            {({ open, close }) => (
+            {({ open }) => (
               <>
                 <div
                   onClick={
@@ -116,11 +189,13 @@ const ActivatedSearchBar = () => {
             )}
           </Popover>
 
+          {/* ********************************************************* Guests End ********************************************************* */}
+
           <div className="flex items-center">
             <h1 className="text-gray-200">|</h1>
           </div>
 
-          {/* Calendar date */}
+          {/* ********************************************************* Calendar date ********************************************************* */}
 
           <Popover className="relative">
             {({ open }) => (
@@ -143,30 +218,23 @@ const ActivatedSearchBar = () => {
                     }
                   >
                     <h3>Pick a Date</h3>
-                    <p className="text-sm text-gray-400">Add Date</p>
+                    <p
+                      className={
+                        date === "" ? `text-sm text-gray-400` : `text-sm`
+                      }
+                    >
+                      {date === "" ? `Add date` : date.toString()}
+                    </p>
                   </Popover.Button>
 
-                  <Popover.Panel className="absolute z-10 p-5 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
-                    <div className="flex items-center space-x-4">
-                      <button onClick={decrementGuestCount}>
-                        <MinusCircleIcon
-                          className={
-                            guestCount > 0
-                              ? `h-8 text-gray-500`
-                              : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                          }
-                        />
-                      </button>
-                      <p>{guestCount}</p>
-                      <button onClick={incrementGuestCount}>
-                        <PlusCircleIcon
-                          className={
-                            guestCount < 5
-                              ? `h-8 text-gray-500`
-                              : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                          }
-                        />
-                      </button>
+                  <Popover.Panel className="absolute flex justify-center z-10 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1 h-80 w-96 ">
+                    <div className="">
+                      <Calendar
+                        date={new Date()}
+                        minDate={new Date()}
+                        color="#FD5B61"
+                        onChange={handleCalendarSelect}
+                      />
                     </div>
                   </Popover.Panel>
                   {/* {setSearchBarBgGray(open)}
@@ -175,11 +243,14 @@ const ActivatedSearchBar = () => {
               </>
             )}
           </Popover>
+
+          {/* ********************************************************* Calendar date end ********************************************************* */}
+
           <div className="flex items-center">
             <h1 className="text-gray-200">|</h1>
           </div>
 
-          {/* Timeslot */}
+          {/* ********************************************************* Timeslot Start ********************************************************* */}
           <Popover className="relative">
             {({ open }) => (
               <>
@@ -201,43 +272,40 @@ const ActivatedSearchBar = () => {
                     }
                   >
                     <h3>Pick a Time</h3>
-                    <p className="text-sm text-gray-400">Choose Time</p>
+                    <p
+                      className={
+                        time === "" ? `text-sm text-gray-400` : `text-sm`
+                      }
+                    >
+                      {time === "" ? `Choose Time` : time}
+                    </p>
                   </Popover.Button>
                 </div>
 
-                <Popover.Panel className="absolute z-10 p-5 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
-                  <div className="flex items-center space-x-4">
-                    <button onClick={decrementGuestCount}>
-                      <MinusCircleIcon
-                        className={
-                          guestCount > 0
-                            ? `h-8 text-gray-500`
-                            : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                        }
-                      />
-                    </button>
-                    <p>{guestCount}</p>
-                    <button onClick={incrementGuestCount}>
-                      <PlusCircleIcon
-                        className={
-                          guestCount < 5
-                            ? `h-8 text-gray-500`
-                            : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                        }
-                      />
-                    </button>
+                <Popover.Panel className="absolute z-10 p-5 -mx-4 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
+                  <div className="grid grid-cols-2 overflow-scroll gap-x-4 gap-y-2 justify-items-center max-h-44 scrollbar-hide">
+                    {bookingTimes.map((timeslot) => (
+                      <button
+                        onClick={() => setTime(timeslot)}
+                        className="py-1 px-3 bg-white shadow-lg border-[0.5px] rounded-xl hover:bg-gray-200 transition ease-out active:scale-90 transform"
+                      >
+                        {timeslot}
+                      </button>
+                    ))}
                   </div>
                 </Popover.Panel>
-                {/* {setSearchBarBgGray(open)}
-                {setTimeSelected(open)} */}
               </>
             )}
           </Popover>
+
+          {/* ********************************************************* Timeslot End ********************************************************* */}
+
           <div className="flex items-center">
             <h1 className="text-gray-200">|</h1>
           </div>
 
-          {/* Location, cuisine or restaurant */}
+          {/* ********************************************************* Location, cuisine or restaurant ********************************************************* */}
+
           <Popover className="relative">
             {({ open }) => (
               <>
@@ -258,39 +326,27 @@ const ActivatedSearchBar = () => {
                           }
                     }
                   >
-                    <Popover.Button className="py-5 pr-4 rounded-full">
+                    <Popover.Button className="flex flex-col items-start justify-center py-5 pr-4 rounded-full">
                       <h3 className="pl-5">Location, cuisine or restaurant</h3>
+                      <p className="pl-5 text-sm text-gray-400">
+                        {dynamicSearchInput !== ""
+                          ? dynamicSearchInput
+                          : `Where to next?`}
+                      </p>
                     </Popover.Button>
                   </div>
                   <Popover.Panel className="absolute z-10 p-5 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1">
-                    <div className="flex items-center space-x-4">
-                      <button onClick={decrementGuestCount}>
-                        <MinusCircleIcon
-                          className={
-                            guestCount > 0
-                              ? `h-8 text-gray-500`
-                              : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                          }
-                        />
-                      </button>
-                      <p>{guestCount}</p>
-                      <button onClick={incrementGuestCount}>
-                        <PlusCircleIcon
-                          className={
-                            guestCount < 5
-                              ? `h-8 text-gray-500`
-                              : `h-8 text-gray-300 opacity-75 cursor-not-allowed`
-                          }
-                        />
-                      </button>
-                    </div>
+                    <input
+                      type="text"
+                      placeholder="Start your search here"
+                      value={dynamicSearchInput}
+                      onChange={(e) => setDynamicSearchInput(e.target.value)}
+                      className="px-8 py-2 mx-3 text-sm bg-gray-100 outline-none rounded-2xl"
+                    />
                   </Popover.Panel>
-                  {/* {setSearchBarBgGray(open)}
-                  {setDynamicSearchSelected(open)} */}
+
                   <div
-                    onClick={() => {
-                      console.log("search button clicked");
-                    }}
+                    onClick={search}
                     className="flex items-center justify-end p-3 text-white bg-red-600 rounded-full"
                   >
                     <SearchIcon className="h-5" />
@@ -307,6 +363,8 @@ const ActivatedSearchBar = () => {
               </>
             )}
           </Popover>
+
+          {/* ********************************************************* Location, cuisine or restaurant end ********************************************************* */}
         </div>
       </div>
     </Fragment>

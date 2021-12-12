@@ -14,8 +14,6 @@ const InfoCard = ({
   const parsedCuisineStyleClass1 = cuisineColorParser(cuisineType[0]);
   const parsedCuisineStyleClass2 = cuisineColorParser(cuisineType[1]);
 
-  console.log(parsedCuisineStyleClass1, parsedCuisineStyleClass2);
-
   return (
     <div className="flex px-4 pr-4 transition duration-200 ease-out border border-gray-200 shadow-lg cursor-pointer rounded-xl py-7 hover:opacity-80 hover:shadow-2xl ">
       <div className="relative flex-shrink-0 w-40 h-24 overflow-hidden rounded-2xl md:h-52 md:w-80 ">

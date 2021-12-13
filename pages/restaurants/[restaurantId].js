@@ -49,8 +49,14 @@ export default RestaurantDetailPage;
 
 // dummy data at https://jsonkeeper.com/b/89VC
 
-export const getServerSideProps = async () => {
-  const restaurantDetails = (await axios("https://jsonkeeper.com/b/89VC")).data;
+export const getServerSideProps = async (context) => {
+  // const restaurantDetails = (await axios("https://jsonkeeper.com/b/89VC")).data;
+  const { restaurantId } = context.query;
+  const restaurantDetails = (
+    await axios(
+      `https://api-dishtable-supa.herokuapp.com/api/restaurant/${restaurantId}`
+    )
+  ).data;
 
   return {
     props: {

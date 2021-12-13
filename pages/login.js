@@ -1,22 +1,33 @@
 import NavBar from "../components/NavBar/NavBar";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
+  const { data: session, status } = useSession();
+
+  console.log("logging session", session);
+  console.log("logging status", status);
 
   const isInvalid = password === "" || email === "";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("handleSubmit fired");
-    // const response = await axios.post()
-    // hook up backend here
-    // on response ok
-    setEmail("");
-    setPassword("");
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+
+    console.log("result at login page", result);
+    // setEmail("");
+    // setPassword("");
   };
 
   return (

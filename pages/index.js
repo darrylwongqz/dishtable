@@ -88,11 +88,16 @@ export default function Home({ featuredData, cuisineData }) {
 }
 
 // https://jsonkeeper.com/b/YW9D - featuredData
+// https://api-dishtable-supa.herokuapp.com/api/restaurant/featured - production
 
 // https://jsonkeeper.com/b/JNOQ - cuisineData
 
 export const getStaticProps = async () => {
-  const featuredData = (await axios.get("https://jsonkeeper.com/b/YW9D")).data;
+  const featuredData = (
+    await axios.get(
+      "https://api-dishtable-supa.herokuapp.com/api/restaurant/featured"
+    )
+  ).data;
 
   const cuisineData = (await axios.get("https://jsonkeeper.com/b/JNOQ")).data;
 

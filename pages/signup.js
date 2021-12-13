@@ -1,6 +1,8 @@
 import NavBar from "../components/NavBar/NavBar";
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -8,21 +10,48 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const router = useRouter();
 
   const isInvalid =
     password === "" || email === "" || password !== confirmPassword;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit fired");
-    // const response = await axios.post()
-    // hook up backend here
-    // on response ok
-    setEmail("");
-    setFirstName("");
-    setLastName("");
-    setPassword("");
-    setConfirmPassword("");
+    setError(null);
+    // console.log("handleSubmit fired");
+    const response = await axios.post(
+      "/api/auth/signup",
+      {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        password: password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("signup page response in handleSubmit", response);
+
+    if (response.data.message !== "User successfully created!") {
+      setError(response.data.error);
+      console.log(response.data.message);
+    } else {
+      console.log(response.data.message);
+    }
+
+    if (!error) {
+      setEmail("");
+      setFirstName("");
+      setLastName("");
+      setPassword("");
+      setConfirmPassword("");
+      router.push("/login");
+    }
   };
 
   return (
@@ -48,6 +77,11 @@ const SignUp = () => {
           className="flex flex-col p-6 bg-gray-100 rounded-lg space-y-7 w-80"
         >
           <div className="flex flex-col space-y-3">
+            {error && (
+              <p className="mx-auto text-sm text-center text-red-600">
+                {error}
+              </p>
+            )}
             <input
               type="email"
               placeholder="Enter your email address"
@@ -84,6 +118,7 @@ const SignUp = () => {
               onChange={(event) => setConfirmPassword(event.target.value)}
             />
           </div>
+
           <div className="flex flex-col space-y-3">
             <button
               disabled={isInvalid}

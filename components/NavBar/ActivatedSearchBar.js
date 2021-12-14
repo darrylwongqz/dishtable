@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
@@ -32,6 +32,7 @@ for (let i = 0; tt < 23.25 * 60; i++) {
 const ActivatedSearchBar = ({ geo }) => {
   const [searchBarBgGray, setSearchBarBgGray] = useState(false);
   const router = useRouter();
+  const calendarRef = useRef();
 
   //Popover States
   const [guestSelected, setGuestSelected] = useState(false);
@@ -47,6 +48,14 @@ const ActivatedSearchBar = ({ geo }) => {
   const [searchFlag, setSearchFlag] = useState("");
 
   const convertedCity = cityMatcher(geo);
+
+  let prevDate = "";
+  useEffect(() => {
+    if (date !== "" && prevDate !== date) {
+      prevDate = date;
+    }
+    console.log("prevDate value", prevDate);
+  }, [date]);
 
   const resetInput = () => {
     setGuestCount(0);
@@ -113,6 +122,12 @@ const ActivatedSearchBar = ({ geo }) => {
     setDate(formattedSelectedDate);
   };
 
+  const handleCalendarClick = () => {
+    // console.log(calendarRef.current);
+    if (prevDate !== "" && prevDate === date) {
+      calendarRef.current.click();
+    }
+  };
   // console.log(typeof date);
   // console.log("searchBarBgGray", searchBarBgGray);
   // console.log("guestSelected", guestSelected);
@@ -217,7 +232,7 @@ const ActivatedSearchBar = ({ geo }) => {
                         : `flex flex-col items-start justify-center flex-grow h-16 pl-7 py-1 transition duration-150 ease-out  rounded-full cursor-pointer min-w-[10rem] hover:bg-gray-200 hover:bg-opacity-75`
                     }
                   >
-                    <h3>Pick a Date</h3>
+                    <h3 ref={calendarRef}>Pick a Date</h3>
                     <p
                       className={
                         date === "" ? `text-sm text-gray-400` : `text-sm`
@@ -228,7 +243,7 @@ const ActivatedSearchBar = ({ geo }) => {
                   </Popover.Button>
 
                   <Popover.Panel className="absolute flex justify-center z-10 bg-white border-[0.3px] shadow-2xl rounded-2xl top-20 left-1 h-80 w-96 ">
-                    <div className="">
+                    <div className="" onClick={handleCalendarClick}>
                       <Calendar
                         date={new Date()}
                         minDate={new Date()}

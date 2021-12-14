@@ -9,61 +9,25 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/solid";
 import { Listbox, Popover } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import { format } from "date-fns";
-import NextCors from "nextjs-cors";
+import { costConverter } from "../../lib/cardUtils";
 
-const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
+const RestaurantDetailPage = ({ restaurantDetails }) => {
   const router = useRouter();
   const [guestCount, setGuestCount] = useState(1);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [timeList, setTimeList] = useState([]);
+  const calendarRef = useRef(null);
 
   console.log(router.query.restaurantId);
 
   console.log(restaurantDetails);
-  console.log(availableTimes);
-
-  const getAvailableDates = async (date) => {
-    const response = await axios({
-      method: "get",
-      url: "/api/reservation/time-list",
-      data: {
-        party_size: 1,
-        date: "24-12-2021",
-        restaurant_id: 3,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "*",
-      },
-    });
-
-    console.log(response);
-  };
-
-  // useEffect(() => {
-  //   if (date) {
-  //     const getAvailableDates = async () => {
-  //       const response = await axios.get(
-  //         "https://api-dishtable-supa.herokuapp.com/api/reservation/time-list",
-  //         {
-  //           party_size: guestCount,
-  //           date: date,
-  //           restaurant_id: Number(router.query.restaurantId),
-  //         }
-  //       );
-
-  //       // const availableDates = response.data;
-  //       console.log(response.data);
-  //     };
-
-  //     getAvailableDates();
-  //   }
-  // }, [date]);
+  // console.log(availableTimes);
 
   const {
     restaurant_name,
@@ -90,6 +54,35 @@ const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
     restaurant_max_table_five,
   } = restaurantDetails;
 
+  const convertedCost = costConverter(restaurant_cost);
+
+  useEffect(() => {
+    if (date) {
+      const getAvailableTimes = async () => {
+        const response = await axios.get(
+          `https://api-dishtable-supa.herokuapp.com/api/reservations/time-list?partySize=${guestCount}&listDate=${date}&restaurantId=${Number(
+            router.query.restaurantId
+          )}`
+        );
+
+        const availableTimes = response.data;
+
+        setTimeList(availableTimes);
+      };
+
+      getAvailableTimes();
+    }
+  }, [date]);
+
+  let prevDate = "";
+
+  useEffect(() => {
+    if (date !== "" && prevDate !== date) {
+      prevDate = date;
+    }
+    console.log("prevDate value", prevDate);
+  }, [date]);
+
   const incrementGuestCount = () => {
     if (guestCount < 5) {
       setGuestCount(guestCount + 1);
@@ -113,13 +106,24 @@ const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
       "dd-MM-yyyy"
     );
     setDate(formattedSelectedDate);
-    // getAvailableDates(date);s
+    if (date !== "" || (prevDate !== "" && prevDate === date)) {
+      calendarRef.current.click();
+    }
   };
+
+  // const handleCalendarClick = () => {
+  //   // console.log(calendarRef.current);
+  //   // console.log("handleCalendarClick fired");
+  //   if (prevDate !== "" && prevDate === date) {
+  //     console.log("passed the click test");
+  //     calendarRef.current.click();
+  //   }
+  // };
 
   return (
     <>
       <NavBar />
-      <main className="grid grid-cols-3 mx-auto mt-24 max-w-7xl">
+      <main className="grid grid-cols-3 mx-auto mb-10 mt-28 max-w-7xl">
         {/* Header Image */}
         <section className="relative col-span-3  h-[550px]">
           <Image
@@ -132,16 +136,39 @@ const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
 
         {/* Main detail section */}
 
-        <section className="relative col-span-2 bg-red-200">
-          <p>I am the detail section</p>
+        <section className="relative col-span-2 p-3 px-5 ">
+          <div className="flex items-center justify-between mt-10">
+            <h1 className="text-2xl font-bold ">{restaurant_name}</h1>
+            <p>{convertedCost}</p>
+          </div>
+
+          <p className="font-semibold">
+            <span className="italic">{`${restaurant_location_country}${
+              restaurant_location_country !== restaurant_location_city
+                ? ", " + restaurant_location_city
+                : ""
+            }`}</span>{" "}
+            - {restaurant_cuisine[0]} - {restaurant_cuisine[1]}
+          </p>
+          <p>{restaurant_location_address}</p>
+          <p>{restaurant_opening_hours}</p>
+          <p className="mt-5">{restaurant_description}</p>
+
+          <div className="mt-5">
+            <h2 className="text-lg font-bold">Restaurant Facilities:</h2>
+
+            {restaurant_facilities.map((facility) => (
+              <p>{facility}</p>
+            ))}
+          </div>
         </section>
 
         {/* booking tab sticky */}
 
-        <section className="relative col-span-1 p-3 ">
+        <section className="relative col-span-1 p-3 mt-10">
           {/* Guest Button */}
 
-          <div className="flex flex-col p-5 space-y-3 border border-gray-100 shadow-lg">
+          <div className="flex flex-col p-5 space-y-3 border border-gray-100 rounded-lg shadow-lg">
             <div className="flex items-center justify-between px-5 py-2 border border-gray-400">
               <p>
                 {guestCount} {guestCount === 1 ? `guest` : `guests`}
@@ -174,26 +201,34 @@ const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
               onChange={setDate}
               className="relative p-4 border border-gray-400"
             >
-              <Listbox.Button as="div">
-                <div className="flex items-center justify-between ">
-                  <p
-                    className={`flex flex-grow cursor-pointer ${
-                      !date && "text-gray-400"
-                    }`}
+              {/* {({ open }) => ( */}
+              <>
+                <Listbox.Button as="div">
+                  <div
+                    className="flex items-center justify-between cursor-pointer"
+                    ref={calendarRef}
                   >
-                    {!date ? `Add date` : date}
-                  </p>
-                  <ChevronDownIcon className="justify-end w-7" />
-                </div>
-              </Listbox.Button>
-              <Listbox.Options className="absolute right-0 z-50 bg-white border border-gray-400">
-                <Calendar
-                  date={new Date()}
-                  minDate={new Date()}
-                  color="#FD5B61"
-                  onChange={handleCalendarSelect}
-                />
-              </Listbox.Options>
+                    <p
+                      className={`flex flex-grow  ${!date && "text-gray-400"}`}
+                    >
+                      {!date ? `Add date` : date}
+                    </p>
+                    <ChevronDownIcon className="justify-end w-7" />
+                  </div>
+                </Listbox.Button>
+                <Listbox.Options
+                  className="absolute right-0 z-50 bg-white border border-gray-400"
+                  // onClick={handleCalendarClick}
+                >
+                  <Calendar
+                    date={new Date()}
+                    minDate={new Date()}
+                    color="#FD5B61"
+                    onChange={handleCalendarSelect}
+                  />
+                </Listbox.Options>
+              </>
+              {/* )} */}
             </Listbox>
 
             {/* Time Picker button */}
@@ -216,18 +251,22 @@ const RestaurantDetailPage = ({ restaurantDetails, availableTimes }) => {
                     <ChevronDownIcon className="justify-end w-7" />
                   </div>
                 </Listbox.Button>
-                <Listbox.Options className="absolute right-0">
-                  <Calendar
-                    date={new Date()}
-                    minDate={new Date()}
-                    color="#FD5B61"
-                    onChange={handleCalendarSelect}
-                  />
+                <Listbox.Options className="">
+                  <div className="absolute right-0 flex flex-col p-2 space-y-2 bg-white w-80">
+                    {timeList.map((timeslot) => (
+                      <Listbox.Option
+                        className="p-2 bg-gray-300"
+                        onClick={() => setTime(timeslot)}
+                      >
+                        {timeslot}
+                      </Listbox.Option>
+                    ))}
+                  </div>
                 </Listbox.Options>
               </Listbox>
             )}
             <button
-              onClick={() => getAvailableDates("24-12-2021")}
+              onClick={() => getAvailableDates()}
               className="px-5 py-2 text-white bg-red-600 rounded-full shadow-md"
             >
               Book Now
@@ -249,29 +288,13 @@ export const getServerSideProps = async (context) => {
   const { restaurantId } = context.query;
   const restaurantDetails = (
     await axios.get(
-      `https://api-dishtable-supa.herokuapp.com/api/restaurant/${restaurantId}`
+      `https://api-dishtable-supa.herokuapp.com/api/restaurants/${restaurantId}`
     )
-  ).data;
-
-  const availableTimes = (
-    await axios({
-      method: "get",
-      url: "https://api-dishtable-supa.herokuapp.com/api/reservation/time-list",
-      data: {
-        party_size: 1,
-        date: "24-12-2021",
-        restaurant_id: 3,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
   ).data;
 
   return {
     props: {
       restaurantDetails,
-      availableTimes,
     },
   };
 };

@@ -95,7 +95,7 @@ export default function Home({ featuredData, cuisineData }) {
 export const getStaticProps = async () => {
   const featuredData = (
     await axios.get(
-      "https://api-dishtable-supa.herokuapp.com/api/restaurant/featured"
+      "https://api-dishtable-supa.herokuapp.com/api/restaurants/featured?city=Singapore"
     )
   ).data;
 

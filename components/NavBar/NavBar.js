@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import ActivatedSearchBar from "./ActivatedSearchBar";
 import { Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const NavBar = () => {
   const [solidNavBar, setSolidNavBar] = useState(true); // remember to change to false after done with search bar dev
@@ -17,6 +18,9 @@ const NavBar = () => {
   const [geo, setGeo] = useState("SG");
   const [searchInput, setSearchInput] = useState("Start your search");
   const router = useRouter();
+  const { data: session } = useSession();
+
+  // console.log(session);
   // const changeNavBackground = () => { // remember to uncomment after done with search bar dev
   //   if (window.scrollY >= 200) {
   //     setSolidNavBar(true);
@@ -150,7 +154,11 @@ const NavBar = () => {
 
         <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
           <MenuIcon className="h-6 " />
-          <UserCircleIcon className="h-6 text-red-600" />
+          {session?.user ? (
+            <Image src={session.user.profile_picture} width={30} height={30} />
+          ) : (
+            <UserCircleIcon className="h-6 text-red-600" />
+          )}
         </div>
       </div>
 

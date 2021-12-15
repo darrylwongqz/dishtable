@@ -8,13 +8,15 @@ import {
   MinusCircleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/solid";
-import { Listbox, Popover } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { useEffect, useState, useRef } from "react";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import { format } from "date-fns";
 import { costConverter } from "../../lib/cardUtils";
+import { ChevronDoubleUpIcon } from "@heroicons/react/solid";
+import { useSession } from "next-auth/react";
 
 const RestaurantDetailPage = ({ restaurantDetails }) => {
   const router = useRouter();
@@ -22,11 +24,17 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [timeList, setTimeList] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingError, setBookingError] = useState(null);
   const calendarRef = useRef(null);
+  const timePickerRef = useRef(null);
+  const { data: session } = useSession();
 
-  console.log(router.query.restaurantId);
+  console.log("current user session", session);
 
-  console.log(restaurantDetails);
+  // console.log(router.query.restaurantId);
+
+  console.log("component rendered", restaurantDetails);
   // console.log(availableTimes);
 
   const {
@@ -59,6 +67,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
   useEffect(() => {
     if (date) {
       const getAvailableTimes = async () => {
+        console.log("getAvailableTimes fired");
         const response = await axios.get(
           `https://api-dishtable-supa.herokuapp.com/api/reservations/time-list?partySize=${guestCount}&listDate=${date}&restaurantId=${Number(
             router.query.restaurantId
@@ -66,6 +75,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
         );
 
         const availableTimes = response.data;
+        // console.log(availableTimes);
 
         setTimeList(availableTimes);
       };
@@ -80,8 +90,17 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
     if (date !== "" && prevDate !== date) {
       prevDate = date;
     }
-    console.log("prevDate value", prevDate);
+    // console.log("prevDate value", prevDate);
   }, [date]);
+
+  let prevTime = "";
+
+  useEffect(() => {
+    if (time !== "" && prevTime !== time) {
+      prevTime = time;
+    }
+    // console.log("prevDate value", prevDate);
+  }, [time]);
 
   const incrementGuestCount = () => {
     if (guestCount < 5) {
@@ -106,19 +125,56 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
       "dd-MM-yyyy"
     );
     setDate(formattedSelectedDate);
-    if (date !== "" || (prevDate !== "" && prevDate === date)) {
+  };
+
+  const handleCalendarClick = () => {
+    // console.log(calendarRef.current);
+    if (prevDate !== "" && prevDate === date) {
       calendarRef.current.click();
     }
   };
 
-  // const handleCalendarClick = () => {
-  //   // console.log(calendarRef.current);
-  //   // console.log("handleCalendarClick fired");
-  //   if (prevDate !== "" && prevDate === date) {
-  //     console.log("passed the click test");
-  //     calendarRef.current.click();
-  //   }
-  // };
+  const handleTimeSelectorClick = () => {
+    if (time !== "" && prevTime === time) {
+      timePickerRef.current.click();
+    }
+  };
+
+  const handleBookingSubmit = async () => {
+    console.log("handleBookingSubmit fired");
+    setIsSubmitting(true);
+    setBookingError(null);
+    // send post request to booking endpoint then once response ok setIsSubmitting(false)
+    try {
+      const response = await axios.post(
+        "https://api-dishtable-supa.herokuapp.com/api/v2/reservations/book",
+        {
+          party_size: guestCount,
+          date,
+          time,
+          restaurant_id: Number(router.query.restaurantId),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + session.token,
+          },
+        }
+      );
+
+      console.log(response);
+
+      if (response.status === 200 || response.statusText === "OK") {
+        setIsSubmitting(false);
+        router.push("/");
+      }
+    } catch (err) {
+      setIsSubmitting(false);
+      // console.log(err);
+      setBookingError(
+        "Uh oh! Your slot has been snapped up, please try another date-time combination"
+      );
+    }
+  };
 
   return (
     <>
@@ -195,15 +251,10 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
 
             {/* Date picker button */}
 
-            <Listbox
-              as="div"
-              value={date}
-              onChange={setDate}
-              className="relative p-4 border border-gray-400"
-            >
+            <Popover as="div" className="relative p-4 border border-gray-400">
               {/* {({ open }) => ( */}
               <>
-                <Listbox.Button as="div">
+                <Popover.Button as="div">
                   <div
                     className="flex items-center justify-between cursor-pointer"
                     ref={calendarRef}
@@ -215,10 +266,10 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
                     </p>
                     <ChevronDownIcon className="justify-end w-7" />
                   </div>
-                </Listbox.Button>
-                <Listbox.Options
+                </Popover.Button>
+                <Popover.Panel
                   className="absolute right-0 z-50 bg-white border border-gray-400"
-                  // onClick={handleCalendarClick}
+                  onClick={handleCalendarClick}
                 >
                   <Calendar
                     date={new Date()}
@@ -226,21 +277,24 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
                     color="#FD5B61"
                     onChange={handleCalendarSelect}
                   />
-                </Listbox.Options>
+                </Popover.Panel>
               </>
               {/* )} */}
-            </Listbox>
+            </Popover>
 
             {/* Time Picker button */}
             {date && (
-              <Listbox
+              <Popover
                 as="div"
                 value={time}
                 onChange={setTime}
                 className="relative p-4 border border-gray-400"
               >
-                <Listbox.Button as="div">
-                  <div className="flex items-center justify-between ">
+                <Popover.Button as="div">
+                  <div
+                    className="flex items-center justify-between "
+                    ref={timePickerRef}
+                  >
                     <p
                       className={`flex flex-grow cursor-pointer ${
                         !date && "text-gray-400"
@@ -250,27 +304,57 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
                     </p>
                     <ChevronDownIcon className="justify-end w-7" />
                   </div>
-                </Listbox.Button>
-                <Listbox.Options className="">
-                  <div className="absolute right-0 flex flex-col p-2 space-y-2 bg-white w-80">
+                </Popover.Button>
+                <Popover.Panel className="">
+                  <div className="absolute right-0 z-50 flex flex-col w-full p-2 space-y-2 overflow-scroll bg-gray-100 border border-gray-100 shadow-2xl rounded-xl scrollbar-hide h-28">
                     {timeList.map((timeslot) => (
-                      <Listbox.Option
-                        className="p-2 bg-gray-300"
-                        onClick={() => setTime(timeslot)}
+                      <p
+                        className="p-2 bg-white rounded-full shadow-md cursor-pointer hover:bg-gray-50"
+                        onClick={() => {
+                          setTime(timeslot);
+                          handleTimeSelectorClick();
+                        }}
                       >
                         {timeslot}
-                      </Listbox.Option>
+                      </p>
                     ))}
                   </div>
-                </Listbox.Options>
-              </Listbox>
+                </Popover.Panel>
+              </Popover>
             )}
-            <button
-              onClick={() => getAvailableDates()}
-              className="px-5 py-2 text-white bg-red-600 rounded-full shadow-md"
-            >
-              Book Now
-            </button>
+            {session?.user ? (
+              <div>
+                {date !== "" && time !== "" ? (
+                  <button
+                    onClick={handleBookingSubmit}
+                    disabled={isSubmitting}
+                    className={`w-full px-5 py-2 text-white  ${
+                      isSubmitting
+                        ? "bg-red-400 cursor-not-allowed"
+                        : "bg-red-600 active:scale-90 transition duration-300 transform"
+                    } rounded-full shadow-md `}
+                  >
+                    {isSubmitting ? "Submitting Booking..." : "Book Now"}
+                  </button>
+                ) : (
+                  <div className="flex items-center justify-center px-5 py-2 space-x-2 text-white bg-red-600 rounded-full shadow-md animate-pulse">
+                    <ChevronDoubleUpIcon className="h-6" />
+                    <p>Choose booking criteria</p>
+                    <ChevronDoubleUpIcon className="h-6" />
+                  </div>
+                )}
+                <div className="mt-2 text-center text-red-600">
+                  {bookingError && bookingError}
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => router.push("/login")}
+                className="flex items-center justify-center px-5 py-2 space-x-2 text-white bg-red-600 rounded-full shadow-md animate-pulse"
+              >
+                <p>Sign in to book</p>
+              </button>
+            )}
           </div>
         </section>
       </main>

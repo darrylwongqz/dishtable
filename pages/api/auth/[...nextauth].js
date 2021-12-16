@@ -25,7 +25,7 @@ export default NextAuth({
           );
 
           //   console.log(response.data);
-
+          // console.log(process.env.JWT_SECRET);
           return response.data;
         } catch (error) {
           console.log(error.response.data);
@@ -40,7 +40,7 @@ export default NextAuth({
   session: {
     strategy: "jwt",
   },
-  secret: "lbfjbeglasfljanf",
+  secret: process.env.JWT_SECRET,
   callbacks: {
     async jwt({ token, user, account, ...rest }) {
       // Initial sign in...

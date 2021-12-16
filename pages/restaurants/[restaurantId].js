@@ -43,23 +43,12 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
     restaurant_location_address,
     restaurant_location_city,
     restaurant_location_country,
-    restaurant_location_lat,
-    restaurant_location_long,
     restaurant_image,
     restaurant_opening_hours,
     restaurant_facilities,
     restaurant_cuisine,
     restaurant_cost,
-    restaurant_start_date,
-    restaurant_end_date,
-    restaurant_start_time,
-    restaurant_end_time,
     restaurant_average_seating_time,
-    restaurant_max_table_one,
-    restaurant_max_table_two,
-    restaurant_max_table_three,
-    restaurant_max_table_four,
-    restaurant_max_table_five,
   } = restaurantDetails;
 
   const convertedCost = costConverter(restaurant_cost);
@@ -219,7 +208,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
           </div>
         </section>
 
-        {/* booking tab sticky */}
+        {/* booking tab */}
 
         <section className="relative col-span-1 p-3 mt-10">
           {/* Guest Button */}

@@ -11,6 +11,7 @@ import ActivatedSearchBar from "./ActivatedSearchBar";
 import { Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const NavBar = () => {
   const [solidNavBar, setSolidNavBar] = useState(true); // remember to change to false after done with search bar dev
@@ -62,19 +63,21 @@ const NavBar = () => {
       }
     >
       {/* Left */}
-      <div className="relative flex items-center h-10 my-auto cursor-pointer">
-        <Image
-          src={
-            solidNavBar
-              ? `/images/dishtable_logo_lightbackground.png`
-              : `/images/dishtable_logo_darkbackground.png`
-          }
-          alt="Airbnb logo"
-          layout="fill"
-          objectFit="contain"
-          objectPosition="left"
-        />
-      </div>
+      <Link href="/">
+        <div className="relative flex items-center h-10 my-auto cursor-pointer">
+          <Image
+            src={
+              solidNavBar
+                ? `/images/dishtable_logo_lightbackground.png`
+                : `/images/dishtable_logo_darkbackground.png`
+            }
+            alt="Dishtable logo"
+            layout="fill"
+            objectFit="contain"
+            objectPosition="left"
+          />
+        </div>
+      </Link>
 
       {/* Middle Search Bar */}
       {isSearchActivated ? (
@@ -155,7 +158,14 @@ const NavBar = () => {
         <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
           <MenuIcon className="h-6 " />
           {session?.user ? (
-            <Image src={session.user.profile_picture} width={30} height={30} />
+            <Link href={`/user/${session.user.id}/upcoming-bookings`}>
+              <Image
+                src={session.user.profile_picture}
+                width={30}
+                height={30}
+                className="rounded-full cursor-pointer"
+              />
+            </Link>
           ) : (
             <UserCircleIcon className="h-6 text-red-600" />
           )}

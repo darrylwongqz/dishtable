@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["ibb.co", "i.ibb.co"],
+    domains: ["ibb.co", "i.ibb.co", "res.cloudinary.com"],
   },
   env: {
     mapbox_key:

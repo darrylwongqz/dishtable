@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const bookingModal = atom({
-  key: "bookingModal",
+export const bookingEditModal = atom({
+  key: "bookingEditModal",
   default: false,
 });

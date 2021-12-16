@@ -8,7 +8,9 @@ import { useSession } from "next-auth/react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   console.log("logging session", session);
   console.log("logging status", status);
@@ -28,6 +30,14 @@ const Login = () => {
     console.log("result at login page", result);
     // setEmail("");
     // setPassword("");
+
+    if (result.ok) {
+      router.push("/");
+    }
+
+    if (status === "unauthenticated") {
+      setError("Wrong Email or Password");
+    }
   };
 
   return (
@@ -69,6 +79,9 @@ const Login = () => {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
+            {error && (
+              <p className="text-sm text-center text-red-600">{error}</p>
+            )}
           </div>
           <div className="flex flex-col space-y-3">
             <button

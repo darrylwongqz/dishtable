@@ -46,7 +46,7 @@ export default UserDetailPage;
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-
+  console.log("serversideprops index on user", session);
   if (!session) {
     return {
       redirect: {

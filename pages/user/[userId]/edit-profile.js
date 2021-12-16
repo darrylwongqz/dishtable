@@ -190,6 +190,7 @@ export default UserDetailPage;
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  console.log("serversideprops edit profile", session);
 
   if (!session) {
     return {

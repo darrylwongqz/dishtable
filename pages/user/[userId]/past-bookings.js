@@ -118,6 +118,7 @@ export default UserPastBookings;
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  console.log("serversideprops pastbookings", session);
 
   if (!session) {
     return {

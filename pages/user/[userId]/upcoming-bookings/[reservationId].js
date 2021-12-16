@@ -313,6 +313,7 @@ export default ReservationDetails;
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   // console.log("context params", context.params);
+  console.log("serversideprops upcomingbookings", session);
 
   if (!session) {
     return {

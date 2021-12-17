@@ -1,14 +1,13 @@
 import Link from "next/link";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const PaginationBar = ({ resultLength }) => {
+const PaginationBar = ({ pageCount }) => {
   const router = useRouter();
   const [nextPageResults, setNextPageResults] = useState(true);
 
-  console.log(router.query);
-  console.log("resultLength", resultLength);
+  // console.log(router.query);
+  // console.log("pageCount", pageCount);
 
   const { city, date, p, party_size, search_flag, search_term, time } =
     router.query;
@@ -20,7 +19,7 @@ const PaginationBar = ({ resultLength }) => {
   const previousPage = convertedPageNum - 1;
 
   useEffect(() => {
-    if (resultLength % p <= 5) {
+    if (pageCount < 2) {
       setNextPageResults(false);
     }
   }, []);

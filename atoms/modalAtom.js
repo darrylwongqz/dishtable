@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const bookingEditModal = atom({
-  key: "bookingEditModal",
+export const mobileMenuModal = atom({
+  key: "mobileMenuModal",
   default: false,
 });

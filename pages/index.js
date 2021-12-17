@@ -9,6 +9,7 @@ import ButtonScrollOverlay from "../components/ButtonScrollOverlay";
 import LargeCard from "../components/LargeCard";
 import { useRecoilState } from "recoil";
 import { geoState } from "../atoms/navAtom";
+import MobileMenuModal from "../components/NavBar/MobileMenuModal";
 
 export default function Home({ featuredData, cuisineData }) {
   // console.log(cuisineData);
@@ -88,6 +89,7 @@ export default function Home({ featuredData, cuisineData }) {
           />
         </main>
       </main>
+      <MobileMenuModal />
 
       {/* Footer */}
       <Footer />

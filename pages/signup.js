@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import MobileMenuModal from "../components/NavBar/MobileMenuModal";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -141,6 +142,7 @@ const SignUp = () => {
           </div>
         </form>
       </main>
+      <MobileMenuModal />
     </>
   );
 };

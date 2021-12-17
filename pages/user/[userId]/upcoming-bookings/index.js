@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Footer from "../../../../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
+import MobileMenuModal from "../../../../components/NavBar/MobileMenuModal";
 
 const UserUpcomingBookings = () => {
   const router = useRouter();
@@ -68,7 +69,7 @@ const UserUpcomingBookings = () => {
   return (
     <>
       <NavBar />
-      <main className="grid grid-cols-4 overflow-hidden">
+      <main className="grid grid-cols-5 overflow-hidden sm:grid-cols-4">
         <Sidebar
           profilePic={profile_picture}
           firstName={first_name}
@@ -76,7 +77,7 @@ const UserUpcomingBookings = () => {
           id={id}
         />
 
-        <section className="flex flex-col h-screen col-span-3 mb-20 mt-28">
+        <section className="flex flex-col h-screen col-span-4 mb-20 sm:col-span-3 mt-28">
           <div className="mt-2 mb-5 text-xl font-bold text-center">
             <h1>Upcoming Bookings</h1>
           </div>
@@ -85,7 +86,7 @@ const UserUpcomingBookings = () => {
               <>
                 <div
                   key={bookingDetails.id}
-                  className="flex justify-between w-2/3 mx-auto overflow-hidden border rounded-lg shadow-lg h-52 sm:h-60 bg-gradient-to-r from-red-100 to-white"
+                  className="flex justify-between w-full mx-auto overflow-hidden border rounded-lg shadow-lg sm:w-2/3 h-52 sm:h-60 bg-gradient-to-r from-red-100 to-white"
                 >
                   <div className="flex flex-col justify-between flex-grow w-2/3 p-5">
                     <div>
@@ -177,6 +178,8 @@ const UserUpcomingBookings = () => {
           </div>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

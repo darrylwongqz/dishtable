@@ -24,7 +24,7 @@ const Map = ({ searchResults }) => {
   //   searchResults.restaurants[0].restaurant_location_long
   // )
 
-  console.log(searchResults);
+  // console.log(searchResults);
 
   const [viewport, setViewport] = useState({
     width: "100%",

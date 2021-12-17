@@ -1,6 +1,17 @@
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { geoState } from "../atoms/navAtom";
+import { cityMatcher, dateConverter } from "../lib/searchBarUtils";
+
+let defaultDate = new Date();
+let defaultTime = "13:00";
+
+const convertedDefaultDate = dateConverter(defaultDate);
 
 const Footer = () => {
+  const [geo, setGeo] = useRecoilState(geoState);
+  const convertedCity = cityMatcher(geo);
+
   return (
     <footer className="items-center justify-center w-full h-40">
       <div className="bg-red-600">
@@ -29,22 +40,30 @@ const Footer = () => {
           <div className="flex flex-col space-y-4 text-xs text-white">
             <h5 className="text-sm font-bold">COUNTRIES</h5>
 
-            <Link href="/">
+            <Link
+              href={`/search?city=${convertedCity}&date=${convertedDefaultDate}&time=${defaultTime}&party_size=2&search_term=Singapore&search_flag=location&p=1`}
+            >
               <a className="transition duration-300 ease-out transform hover:translate-x-2 hover:underline hover:scale-105 hover:font-semibold">
                 Singapore
               </a>
             </Link>
-            <Link href="/">
+            <Link
+              href={`/search?city=${convertedCity}&date=${convertedDefaultDate}&time=${defaultTime}&party_size=2&search_term=London&search_flag=location&p=1`}
+            >
               <a className="transition duration-300 ease-out transform hover:translate-x-2 hover:underline hover:scale-105 hover:font-semibold">
                 London
               </a>
             </Link>
-            <Link href="/">
+            <Link
+              href={`/search?city=${convertedCity}&date=${convertedDefaultDate}&time=${defaultTime}&party_size=2&search_term=Seoul&search_flag=location&p=1`}
+            >
               <a className="transition duration-300 ease-out transform hover:translate-x-2 hover:underline hover:scale-105 hover:font-semibold">
                 Seoul
               </a>
             </Link>
-            <Link href="/">
+            <Link
+              href={`/search?city=${convertedCity}&date=${convertedDefaultDate}&time=${defaultTime}&party_size=2&search_term=Paris&search_flag=location&p=1`}
+            >
               <a className="transition duration-300 ease-out transform hover:translate-x-2 hover:underline hover:scale-105 hover:font-semibold">
                 Paris
               </a>

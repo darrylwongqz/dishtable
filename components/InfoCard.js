@@ -26,7 +26,7 @@ const InfoCard = ({
       onClick={redirectToRestaurantDetailPage}
       className="flex px-4 pr-4 transition duration-200 ease-out border border-gray-200 shadow-lg cursor-pointer rounded-xl py-7 hover:opacity-80 hover:shadow-2xl "
     >
-      <div className="relative flex-shrink-0 w-40 h-24 overflow-hidden rounded-2xl md:h-52 md:w-80 ">
+      <div className="relative flex-shrink-0 w-40 h-40 overflow-hidden rounded-2xl md:h-52 md:w-80 ">
         <Image
           src={img}
           layout="fill"
@@ -37,7 +37,7 @@ const InfoCard = ({
 
       <div className="flex flex-col flex-grow pl-5">
         <div className="flex items-center">
-          <h4 className="text-xl">{title}</h4>
+          <h4 className="text-base sm:text-lg md:text-xl">{title}</h4>
           <p className="px-1 text-sm italic text-gray-600">
             {city === country ? `- ${city}` : `- ${city}, ${country}`}
           </p>
@@ -55,7 +55,7 @@ const InfoCard = ({
             {cuisineType[1]}
           </p>
         </div>
-        <p className="flex-grow pt-2 text-sm text-gray-500 ">
+        <p className="flex-grow pt-2 text-xs text-gray-500 sm:text-sm ">
           {description.substr(0, 100) + "..."}
         </p>
         <div className="flex items-end pt-2">

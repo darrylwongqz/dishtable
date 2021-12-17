@@ -4,15 +4,12 @@ import Footer from "../components/Footer";
 import InfoCard from "../components/InfoCard";
 import Map from "../components/Map";
 import NavBar from "../components/NavBar/NavBar";
-import { format } from "date-fns";
+
 import PaginationBar from "../components/PaginationBar";
-import { useRecoilState } from "recoil";
-import { activatedNavState } from "../atoms/navAtom";
-import { useEffect } from "react";
+
+import MobileMenuModal from "../components/NavBar/MobileMenuModal";
 
 const Search = ({ searchResults }) => {
-  const [isSearchActivated, setIsSearchActivated] =
-    useRecoilState(activatedNavState);
   const router = useRouter();
   const { city, date, party_size, time } = router.query;
 
@@ -21,12 +18,8 @@ const Search = ({ searchResults }) => {
   // console.log(city, date, party_size, time);
   // console.log("searchResults on search page", searchResults);
 
-  // useEffect(() => {
-  //   setIsSearchActivated(false);
-  // }, []);
-
   const restaurantResults = searchResults?.restaurants;
-  console.log(restaurantResults);
+  // console.log(searchResults);
 
   return (
     <div>
@@ -78,8 +71,8 @@ const Search = ({ searchResults }) => {
             )}
             <div className="pb-5 " />
           </div>
-          {restaurantResults?.length > 5 && (
-            <PaginationBar resultLength={restaurantResults?.length} />
+          {searchResults?.pageCount > 1 && (
+            <PaginationBar pageCount={searchResults?.pageCount} />
           )}
         </section>
         {/* Map Section */}
@@ -87,6 +80,7 @@ const Search = ({ searchResults }) => {
           {restaurantResults?.length && <Map searchResults={searchResults} />}
         </section>
       </main>
+      <MobileMenuModal />
 
       <Footer />
     </div>

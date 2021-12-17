@@ -5,12 +5,13 @@ import Sidebar from "../../../components/UserDashboard/Sidebar";
 import { ChevronDoubleLeftIcon } from "@heroicons/react/outline";
 import Footer from "../../../components/Footer";
 import { useEffect } from "react";
+import MobileMenuModal from "../../../components/NavBar/MobileMenuModal";
 
 const UserDetailPage = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  console.log("current user logged in", session);
+  // console.log("current user logged in", session);
   const { id, email, first_name, last_name, profile_picture } = session?.user;
 
   useEffect(() => {
@@ -37,6 +38,8 @@ const UserDetailPage = () => {
           </div>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

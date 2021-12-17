@@ -59,7 +59,7 @@ const ActivatedSearchBar = ({ geo }) => {
   });
 
   const convertedCity = cityMatcher(geo);
-  const defaultTime = "19:00";
+  const defaultTime = "13:00";
   let defaultDate = new Date();
   // let hourNow = new Date().getHours();
 
@@ -92,7 +92,7 @@ const ActivatedSearchBar = ({ geo }) => {
             )
             .catch((error) => {});
           setDynamicSearchResults(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         } catch (error) {
           console.log(error);
         }
@@ -141,7 +141,7 @@ const ActivatedSearchBar = ({ geo }) => {
     time = false,
     dynamicSearch = false
   ) => {
-    console.log("handleFieldSelected fired");
+    // console.log("handleFieldSelected fired");
     setSearchBarBgGray(true);
     setGuestSelected(guest);
     setDateSelected(date);
@@ -491,7 +491,9 @@ const ActivatedSearchBar = ({ geo }) => {
                                     time ? time : defaultTime
                                   }&party_size=${
                                     guestCount !== 0 ? guestCount : 2
-                                  }&search_term=${dynamicSearchInput}&search_flag=location&p=1`}
+                                  }&search_term=${
+                                    result.restaurant_location_city
+                                  }&search_flag=location&p=1`}
                                   className="w-full bg-gray-200"
                                 >
                                   <div

@@ -14,12 +14,15 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { activatedNavState, geoState } from "../../atoms/navAtom";
+import { mobileMenuModal } from "../../atoms/modalAtom";
 
 const NavBar = () => {
   const [solidNavBar, setSolidNavBar] = useState(false); // remember to change to false after done with search bar dev
   const [isSearchActivated, setIsSearchActivated] =
     useRecoilState(activatedNavState); // remember to change to false after done with search bar dev
   const [geo, setGeo] = useRecoilState(geoState);
+  const [open, setOpen] = useRecoilState(mobileMenuModal);
+
   const [searchInput, setSearchInput] = useState("Start your search");
   const router = useRouter();
   const { data: session } = useSession();
@@ -102,7 +105,7 @@ const NavBar = () => {
 
       {/* Middle Search Bar */}
       {isSearchActivated ? (
-        <div className="flex items-center justify-center space-x-2">
+        <div className="items-center justify-center hidden space-x-2 sm:flex">
           <h1 className="font-semibold">Choose your reservation criteria</h1>
           {/* <button
             onClick={() => setIsSearchActivated(false)}
@@ -112,7 +115,7 @@ const NavBar = () => {
           </button> */}
         </div>
       ) : (
-        <div className="flex justify-center ">
+        <div className="justify-center hidden sm:flex ">
           <div
             onClick={() => setIsSearchActivated(true)}
             className={
@@ -121,7 +124,9 @@ const NavBar = () => {
                 : `hidden`
             }
           >
-            <p className="pl-5 text-sm font-semibold">{searchInput}</p>
+            <p className="hidden pl-5 text-sm font-semibold md:inline-flex">
+              {searchInput}
+            </p>
             <SearchIcon
               className={
                 solidNavBar
@@ -137,8 +142,8 @@ const NavBar = () => {
       <div
         className={
           solidNavBar
-            ? `flex items-center justify-end space-x-4 text-gray-500 duration-500 transition-colors`
-            : `flex items-center justify-end space-x-4 text-white`
+            ? `col-span-2 sm:col-span-1 flex items-center justify-end space-x-4 text-gray-500 duration-500 transition-colors`
+            : `col-span-2 sm:col-span-1 flex items-center justify-end space-x-4 text-white`
         }
       >
         <Listbox as="div" value={geo} onChange={setGeo} className="relative">
@@ -180,10 +185,26 @@ const NavBar = () => {
           onClick={() => setIsSearchActivated(false)}
           className="flex items-center p-2 space-x-2 sm:border-2 sm:rounded-full"
         >
-          <MenuIcon className="h-6" />
+          <div onClick={() => setOpen(!open)} className="sm:hidden">
+            <MenuIcon className="h-6" />
+          </div>
 
           {session?.user ? (
-            <div className="hidden sm:flex">
+            <Link href={`/user/${session.user.id}/upcoming-bookings`}>
+              <div className="hidden sm:inline-flex">
+                <MenuIcon className="h-6" />
+              </div>
+            </Link>
+          ) : (
+            <Link href={`/login`}>
+              <div className="hidden sm:inline-flex">
+                <MenuIcon className="h-6" />
+              </div>
+            </Link>
+          )}
+
+          {session?.user ? (
+            <div className="flex">
               <Link href={`/user/${session.user.id}/upcoming-bookings`}>
                 <Image
                   src={session.user.profile_picture}

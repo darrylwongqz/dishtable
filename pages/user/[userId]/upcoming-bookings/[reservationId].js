@@ -15,6 +15,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Calendar } from "react-date-range";
 import { format } from "date-fns";
+import MobileMenuModal from "../../../../components/NavBar/MobileMenuModal";
 
 const ReservationDetails = () => {
   const router = useRouter();
@@ -303,6 +304,8 @@ const ReservationDetails = () => {
           </div>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

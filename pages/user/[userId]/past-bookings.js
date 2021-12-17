@@ -7,13 +7,14 @@ import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import Image from "next/image";
 import Link from "next/link";
+import MobileMenuModal from "../../../components/NavBar/MobileMenuModal";
 
 const UserPastBookings = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [prevBookings, setPrevBookings] = useState([]);
 
-  console.log("current user logged in", session);
+  // console.log("current user logged in", session);
   const { email, id, first_name, last_name, profile_picture } = session?.user;
 
   // console.log(router);
@@ -29,7 +30,7 @@ const UserPastBookings = () => {
         }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       setPrevBookings(response.data);
     };
 
@@ -39,7 +40,7 @@ const UserPastBookings = () => {
   return (
     <>
       <NavBar />
-      <main className="grid grid-cols-4 overflow-hidden">
+      <main className="grid grid-cols-5 overflow-hidden sm:grid-cols-4">
         <Sidebar
           profilePic={profile_picture}
           firstName={first_name}
@@ -47,7 +48,7 @@ const UserPastBookings = () => {
           id={id}
         />
 
-        <section className="flex flex-col h-screen col-span-3 mb-20 mt-28">
+        <section className="flex flex-col h-screen col-span-4 mb-20 sm:col-span-3 mt-28">
           <div className="mt-2 mb-5 text-xl font-bold text-center">
             <h1>Previous Bookings</h1>
           </div>
@@ -56,7 +57,7 @@ const UserPastBookings = () => {
               <>
                 <div
                   key={bookingDetails.id}
-                  className="flex justify-between w-2/3 h-56 mx-auto overflow-hidden border rounded-lg shadow-lg bg-gradient-to-r from-red-100 to-white"
+                  className="flex justify-between w-full overflow-hidden border rounded-lg shadow-lg sm:mx-auto sm:w-2/3 h-52 sm:h-60 bg-gradient-to-r from-red-100 to-white"
                 >
                   <div className="flex flex-col justify-between flex-grow w-2/3 p-5">
                     <div>
@@ -64,15 +65,15 @@ const UserPastBookings = () => {
                         <h1 className="text-lg font-bold ">
                           {restaurantDetails.restaurant_name}
                         </h1>
-                        <p> - </p>
-                        <p className="text-sm italic">
+                        <p className="hidden sm:inline-flex"> - </p>
+                        <p className="hidden text-sm italic sm:inline-flex">
                           {restaurantDetails.restaurant_location_country}
                           {restaurantDetails.restaurant_location_city !==
                             restaurantDetails.restaurant_location_country &&
                             ", " + restaurantDetails.restaurant_location_city}
                         </p>
                       </div>
-                      <p className="text-sm">
+                      <p className="text-xs sm:text-sm">
                         {restaurantDetails.restaurant_location_address}
                       </p>
                     </div>
@@ -89,7 +90,7 @@ const UserPastBookings = () => {
                         <span className="font-semibold">Number of guests:</span>{" "}
                         {bookingDetails.party_size}
                       </p>
-                      <p>
+                      <p className="hidden lg:inline-flex">
                         <span className="font-semibold">
                           Booking reference:
                         </span>{" "}
@@ -100,7 +101,7 @@ const UserPastBookings = () => {
                       <Link
                         href={`/restaurants/${bookingDetails.restaurant_id}`}
                       >
-                        <a className="px-3 py-1 text-white transition duration-150 ease-out transform bg-black rounded-md cursor-pointer hover:bg-white hover:text-red-800 active:scale-90">
+                        <a className="px-3 py-1 text-sm text-white transition duration-150 ease-out transform bg-black rounded-md cursor-pointer sm:text-base hover:bg-white hover:text-red-800 active:scale-90">
                           Book Again
                         </a>
                       </Link>
@@ -119,6 +120,8 @@ const UserPastBookings = () => {
           </div>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

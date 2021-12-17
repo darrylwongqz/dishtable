@@ -1,7 +1,12 @@
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { LogoutIcon, UserIcon, TableIcon } from "@heroicons/react/outline";
+import {
+  LogoutIcon,
+  UserIcon,
+  TableIcon,
+  ClockIcon,
+} from "@heroicons/react/outline";
 
 const Sidebar = ({ profilePic, firstName, lastName, id }) => {
   return (
@@ -55,13 +60,17 @@ const Sidebar = ({ profilePic, firstName, lastName, id }) => {
 
         <Link href={`/user/${id}/past-bookings`}>
           <a>
-            <LogoutIcon className="w-7 h-7 sm:hidden" />
+            <ClockIcon className="w-7 h-7 sm:hidden" />
           </a>
         </Link>
 
+        <div onClick={() => signOut()}>
+          <LogoutIcon className="cursor-pointer w-7 h-7 sm:hidden" />
+        </div>
+
         <button
           onClick={() => signOut()}
-          className="hidden px-2 py-1 font-semibold text-black transition duration-300 ease-out transform bg-white rounded-full sm:flex sm:text-sm sm:px-4 sm:py-2 hover:bg-black hover:text-white active:scale-90"
+          className="hidden px-2 py-1 font-semibold text-black transition duration-300 ease-out transform bg-white rounded-full sm:inline-flex sm:text-sm sm:px-4 sm:py-2 hover:bg-black hover:text-white active:scale-90"
         >
           Log Out
         </button>

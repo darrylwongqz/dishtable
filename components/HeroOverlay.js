@@ -12,7 +12,7 @@ const HeroOverlay = () => {
 
       <button
         onClick={() => setIsSearchActivated(!isSearchActivated)}
-        className="px-10 py-4 my-3 font-bold text-red-600 transition duration-150 ease-out transform bg-white rounded-full shadow-md hover:scale-105 hover:shadow-xl active:scale-90"
+        className="hidden px-10 py-4 my-3 font-bold text-red-600 transition duration-150 ease-out transform bg-white rounded-full shadow-md sm:inline-block hover:scale-105 hover:shadow-xl active:scale-90"
       >
         Book Now
       </button>

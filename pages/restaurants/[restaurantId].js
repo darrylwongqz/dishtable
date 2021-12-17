@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import { costConverter } from "../../lib/cardUtils";
 import { ChevronDoubleUpIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import MobileMenuModal from "../../components/NavBar/MobileMenuModal";
 
 const RestaurantDetailPage = ({ restaurantDetails }) => {
   const router = useRouter();
@@ -150,7 +151,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
         }
       );
 
-      console.log(response);
+      // console.log(response);
 
       if (response.status === 200 || response.statusText === "OK") {
         setIsSubmitting(false);
@@ -170,7 +171,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
       <NavBar />
       <main className="grid grid-cols-3 mx-auto mb-10 mt-28 max-w-7xl">
         {/* Header Image */}
-        <section className="relative col-span-3  h-[550px]">
+        <section className="relative col-span-3 h-48 sm:h-80 md:h-[550px]">
           <Image
             src={restaurant_image[0] || `/images/heroimg.jpg`}
             layout="fill"
@@ -181,7 +182,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
 
         {/* Main detail section */}
 
-        <section className="relative col-span-2 p-3 px-5 ">
+        <section className="relative col-span-3 p-3 px-5 md:col-span-2 ">
           <div className="flex items-center justify-between mt-10">
             <h1 className="text-2xl font-bold ">{restaurant_name}</h1>
             <p>{convertedCost}</p>
@@ -210,7 +211,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
 
         {/* booking tab */}
 
-        <section className="relative col-span-1 p-3 mt-10">
+        <section className="relative col-span-3 p-3 mt-10 md:col-span-1">
           {/* Guest Button */}
 
           <div className="flex flex-col p-5 space-y-3 border border-gray-100 rounded-lg shadow-lg">
@@ -328,7 +329,7 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
                 ) : (
                   <div className="flex items-center justify-center px-5 py-2 space-x-2 text-white bg-red-600 rounded-full shadow-md animate-pulse">
                     <ChevronDoubleUpIcon className="h-6" />
-                    <p>Choose booking criteria</p>
+                    <p className="text-center">Choose booking criteria</p>
                     <ChevronDoubleUpIcon className="h-6" />
                   </div>
                 )}
@@ -347,6 +348,8 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
           </div>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

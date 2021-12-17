@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import MobileMenuModal from "../components/NavBar/MobileMenuModal";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,23 +21,26 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("handleSubmit fired");
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+      console.log("result at login page", result);
+      // setEmail("");
+      // setPassword("");
 
-    console.log("result at login page", result);
-    // setEmail("");
-    // setPassword("");
+      if (result.ok) {
+        router.push("/");
+      }
 
-    if (result.ok) {
-      router.push("/");
-    }
-
-    if (status === "unauthenticated") {
-      setError("Wrong Email or Password");
+      if (result.status !== 200) {
+        setError("Wrong Email or Password");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -105,6 +109,7 @@ const Login = () => {
           </div>
         </form>
       </main>
+      <MobileMenuModal />
     </>
   );
 };

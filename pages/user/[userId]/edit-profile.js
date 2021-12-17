@@ -1,31 +1,26 @@
-import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import NavBar from "../../../components/NavBar/NavBar";
 import Sidebar from "../../../components/UserDashboard/Sidebar";
 import { CameraIcon, PencilIcon } from "@heroicons/react/outline";
 import Footer from "../../../components/Footer";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { signOut } from "next-auth/react";
+import MobileMenuModal from "../../../components/NavBar/MobileMenuModal";
 
 const UserDetailPage = () => {
-  const router = useRouter();
   const { data: session } = useSession();
 
-  console.log("current user logged in", session);
+  // console.log("current user logged in", session);
   const { id, email, first_name, last_name, profile_picture } = session?.user;
   const [newProfilePic, setNewProfilePic] = useState(profile_picture);
   const [firstName, setFirstName] = useState(first_name);
   const [lastName, setLastName] = useState(last_name);
   const [newPassword, setNewPassword] = useState("");
-  // const [email, setNewEmail] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [profilePicUrl, setProfilePicUrl] = useState(undefined);
   const isInvalid = firstName.trim() === "" || lastName.trim() === "";
-
-  // const filePickerRef = useRef();
-  // console.log(router);
 
   const addImageAsSelectedFile = (e) => {
     console.log("handleFileUpload fired");
@@ -55,7 +50,7 @@ const UserDetailPage = () => {
         url: "https://api.cloudinary.com/v1_1/darrylwongqz/image/upload",
         data: formData,
       });
-      console.log(response.data);
+      // console.log(response.data);
       setProfilePicUrl(response.data.secure_url);
       uploadFields();
     } catch (err) {
@@ -64,8 +59,8 @@ const UserDetailPage = () => {
   };
 
   const uploadFields = async () => {
-    console.log("uploadFields Fired");
-    console.log(firstName, lastName, profilePicUrl, newPassword);
+    // console.log("uploadFields Fired");
+    // console.log(firstName, lastName, profilePicUrl, newPassword);
     const response = await axios.patch(
       "https://api-dishtable-supa.herokuapp.com/api/auth",
       {
@@ -88,7 +83,7 @@ const UserDetailPage = () => {
 
   const handleEditSave = (event) => {
     event.preventDefault();
-    console.log("handleEditSave Fired");
+    // console.log("handleEditSave Fired");
     if (selectedFile) {
       uploadProfilePic();
     } else {
@@ -99,7 +94,7 @@ const UserDetailPage = () => {
   return (
     <>
       <NavBar />
-      <main className="grid h-screen grid-cols-4 ">
+      <main className="grid h-screen grid-cols-5 sm:grid-cols-4 ">
         <Sidebar
           profilePic={profile_picture}
           firstName={first_name}
@@ -107,14 +102,14 @@ const UserDetailPage = () => {
           id={id}
         />
 
-        <section className="flex flex-col items-center justify-center col-span-3 mt-72 h-1/4 ">
+        <section className="flex flex-col items-center justify-center col-span-4 sm:col-span-3 mt-72 h-1/4 ">
           <form
             onSubmit={handleEditSave}
-            className="flex flex-col items-center w-1/2 p-5 mb-5 border rounded-lg shadow-md bg-red-50"
+            className="flex flex-col items-center w-full p-5 mb-5 border rounded-lg shadow-md sm:w-1/2 bg-red-50"
           >
             <div className="w-full">
               <div className="relative flex flex-col items-center justify-center">
-                <div className="relative mx-auto overflow-hidden border border-gray-300 rounded-full md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 2xl:w-56 2xl:h-56">
+                <div className="relative w-16 h-16 mx-auto overflow-hidden border border-gray-300 rounded-full md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 2xl:w-56 2xl:h-56">
                   <Image
                     src={selectedFile ? selectedFile : newProfilePic}
                     layout="fill"
@@ -160,7 +155,7 @@ const UserDetailPage = () => {
                 <div className="flex items-center justify-between w-full space-x-2 overflow-hidden bg-white rounded-md">
                   <label
                     for="profilepic"
-                    className="h-full px-4 py-2 text-white bg-black min-w-min"
+                    className="h-full px-4 py-2 text-xs text-white bg-black sm:text-sm min-w-min"
                   >
                     Profile Picture
                   </label>
@@ -181,6 +176,8 @@ const UserDetailPage = () => {
           </form>
         </section>
       </main>
+      <MobileMenuModal />
+
       <Footer />
     </>
   );

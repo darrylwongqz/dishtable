@@ -42,12 +42,12 @@ const UserUpcomingBookings = () => {
   }, [cancelTrigger]);
 
   const handleEditClicked = (reservation_id) => {
-    console.log("handleEdit Fired");
+    // console.log("handleEdit Fired");
     router.push(`/user/${id}/upcoming-bookings/${reservation_id}`);
   };
 
   const handleCancelClicked = async (reservation_id) => {
-    console.log("handleCancel Fired");
+    // console.log("handleCancel Fired");
     // console.log(reservation_id);
     try {
       const response = await axios.patch(

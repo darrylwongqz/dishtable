@@ -62,13 +62,13 @@ const ReservationDetails = () => {
     fetchBookingDetails();
   }, []);
 
-  console.log("fetched booking details", bookingDetails);
-  console.log("fetched resto details", restaurantDetails);
+  // console.log("fetched booking details", bookingDetails);
+  // console.log("fetched resto details", restaurantDetails);
 
   useEffect(() => {
     if (date) {
       const getAvailableTimes = async () => {
-        console.log("getAvailableTimes fired");
+        // console.log("getAvailableTimes fired");
         const response = await axios.get(
           `https://api-dishtable-supa.herokuapp.com/api/reservations/time-list?partySize=${guestCount}&listDate=${date}&restaurantId=${Number(
             bookingDetails.restaurant_id

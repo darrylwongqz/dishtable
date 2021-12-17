@@ -36,7 +36,7 @@ const SignUp = () => {
       }
     );
 
-    console.log("signup page response in handleSubmit", response);
+    // console.log("signup page response in handleSubmit", response);
 
     if (response.data.message !== "User successfully created!") {
       setError(response.data.error);

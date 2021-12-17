@@ -20,7 +20,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("handleSubmit fired");
+    // console.log("handleSubmit fired");
     try {
       const result = await signIn("credentials", {
         redirect: false,
@@ -28,7 +28,7 @@ const Login = () => {
         password,
       });
 
-      console.log("result at login page", result);
+      // console.log("result at login page", result);
       // setEmail("");
       // setPassword("");
 

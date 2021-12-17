@@ -23,14 +23,14 @@ const UserDetailPage = () => {
   const isInvalid = firstName.trim() === "" || lastName.trim() === "";
 
   const addImageAsSelectedFile = (e) => {
-    console.log("handleFileUpload fired");
+    // console.log("handleFileUpload fired");
     const reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
-      console.log(readerEvent.target.result);
+      // console.log(readerEvent.target.result);
       setSelectedFile(readerEvent.target.result);
     };
   };
@@ -39,7 +39,7 @@ const UserDetailPage = () => {
     if (isInvalid) {
       return;
     }
-    console.log("uploadProfilePic fired");
+    // console.log("uploadProfilePic fired");
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("upload_preset", "dishtable");
@@ -127,7 +127,7 @@ const UserDetailPage = () => {
                 </div> */}
                 </div>
               </div>
-              <div className="w-full p-5 rounded-lg">
+              <div className="w-full mt-2 rounded-lg sm:mt-0 sm:p-5">
                 <input
                   aria-label="Enter your first name"
                   type="text"
@@ -170,7 +170,7 @@ const UserDetailPage = () => {
                 </div>
               </div>
             </div>
-            <button className="px-3 py-2 text-white bg-black rounded-lg">
+            <button className="px-3 py-2 mt-2 text-white bg-black rounded-lg sm:mt-0">
               Save Profile
             </button>
           </form>

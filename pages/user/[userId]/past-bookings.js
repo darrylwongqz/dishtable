@@ -6,6 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserPastBookings = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const UserPastBookings = () => {
               <>
                 <div
                   key={bookingDetails.id}
-                  className="flex justify-between w-2/3 h-48 mx-auto overflow-hidden border rounded-lg shadow-lg bg-gradient-to-r from-red-100 to-white"
+                  className="flex justify-between w-2/3 h-56 mx-auto overflow-hidden border rounded-lg shadow-lg bg-gradient-to-r from-red-100 to-white"
                 >
                   <div className="flex flex-col justify-between flex-grow w-2/3 p-5">
                     <div>
@@ -94,6 +95,15 @@ const UserPastBookings = () => {
                         </span>{" "}
                         {bookingDetails.id}
                       </p>
+                    </div>
+                    <div className="mt-2 space-x-1 ">
+                      <Link
+                        href={`/restaurants/${bookingDetails.restaurant_id}`}
+                      >
+                        <a className="px-3 py-1 text-white transition duration-150 ease-out transform bg-black rounded-md cursor-pointer hover:bg-white hover:text-red-800 active:scale-90">
+                          Book Again
+                        </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="relative md:h-full md:w-1/3">

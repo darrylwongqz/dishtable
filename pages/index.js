@@ -7,9 +7,14 @@ import axios from "axios";
 import CuisineCard from "../components/CuisineCard";
 import ButtonScrollOverlay from "../components/ButtonScrollOverlay";
 import LargeCard from "../components/LargeCard";
+import { useRecoilState } from "recoil";
+import { geoState } from "../atoms/navAtom";
 
 export default function Home({ featuredData, cuisineData }) {
-  console.log(cuisineData);
+  // console.log(cuisineData);
+
+  const [geo, setGeo] = useRecoilState(geoState);
+
   return (
     <div>
       <Head>
@@ -46,6 +51,7 @@ export default function Home({ featuredData, cuisineData }) {
                 }) => (
                   <FeatureCard
                     key={id}
+                    id={id}
                     img={restaurant_image}
                     title={restaurant_name}
                     cost={restaurant_cost}
@@ -66,6 +72,7 @@ export default function Home({ featuredData, cuisineData }) {
                   key={id}
                   cuisineType={cuisine_type}
                   img={cuisine_image}
+                  geo={geo}
                 />
               ))}
             </ButtonScrollOverlay>
@@ -77,6 +84,7 @@ export default function Home({ featuredData, cuisineData }) {
             title="We know you're hungry"
             description="Book your next meal now"
             buttonText="Book now"
+            geo={geo}
           />
         </main>
       </main>
@@ -99,7 +107,9 @@ export const getStaticProps = async () => {
     )
   ).data;
 
-  const cuisineData = (await axios.get("https://jsonkeeper.com/b/JNOQ")).data;
+  // console.log(featuredData);
+
+  const cuisineData = (await axios.get("https://jsonkeeper.com/b/0V4A")).data;
 
   return {
     props: {

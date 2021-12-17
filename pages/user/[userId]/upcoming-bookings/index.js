@@ -6,16 +6,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Footer from "../../../../components/Footer";
 import Image from "next/image";
+import Link from "next/link";
 
 const UserUpcomingBookings = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [upcomingBookings, setUpcomingBookings] = useState([]);
+  const [cancelTrigger, setCancelTrigger] = useState(false);
 
-  console.log("current user logged in", session);
+  // console.log("current user logged in", session);
   const { email, id, first_name, last_name, profile_picture } = session?.user;
 
-  console.log(session.token);
+  // console.log(session.token);
 
   // console.log(router);
 
@@ -30,12 +32,13 @@ const UserUpcomingBookings = () => {
         }
       );
 
-      console.log(response.data.upcomingReservationCombined);
+      // console.log(response.data.upcomingReservationCombined);
       setUpcomingBookings(response.data.upcomingReservationCombined);
+      setCancelTrigger(false);
     };
 
     fetchUpcomingBookings();
-  }, []);
+  }, [cancelTrigger]);
 
   const handleEditClicked = (reservation_id) => {
     console.log("handleEdit Fired");
@@ -44,17 +47,22 @@ const UserUpcomingBookings = () => {
 
   const handleCancelClicked = async (reservation_id) => {
     console.log("handleCancel Fired");
-    console.log(reservation_id);
-    const response = await axios.patch(
-      `https://api-dishtable-supa.herokuapp.com/api/v2/reservations/${reservation_id}/cancel`,
-      {},
-      {
-        headers: {
-          Authorization: "Bearer " + session.token,
-        },
-      }
-    );
-    console.log("cancel", response);
+    // console.log(reservation_id);
+    try {
+      const response = await axios.patch(
+        `https://api-dishtable-supa.herokuapp.com/api/v2/reservations/${reservation_id}/cancel`,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + session.token,
+          },
+        }
+      );
+      // console.log("cancel", response);
+      setCancelTrigger(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -77,7 +85,7 @@ const UserUpcomingBookings = () => {
               <>
                 <div
                   key={bookingDetails.id}
-                  className="flex justify-between w-2/3 h-56 mx-auto overflow-hidden border rounded-lg shadow-lg bg-gradient-to-r from-red-100 to-white"
+                  className="flex justify-between w-2/3 mx-auto overflow-hidden border rounded-lg shadow-lg h-52 sm:h-60 bg-gradient-to-r from-red-100 to-white"
                 >
                   <div className="flex flex-col justify-between flex-grow w-2/3 p-5">
                     <div>
@@ -85,15 +93,15 @@ const UserUpcomingBookings = () => {
                         <h1 className="text-lg font-bold ">
                           {restaurantDetails.restaurant_name}
                         </h1>
-                        <p> - </p>
-                        <p className="text-sm italic">
+                        <p className="hidden sm:inline-flex"> - </p>
+                        <p className="hidden text-sm italic sm:inline-flex">
                           {restaurantDetails.restaurant_location_country}
                           {restaurantDetails.restaurant_location_city !==
                             restaurantDetails.restaurant_location_country &&
                             ", " + restaurantDetails.restaurant_location_city}
                         </p>
                       </div>
-                      <p className="text-sm">
+                      <p className="text-xs sm:text-sm">
                         {restaurantDetails.restaurant_location_address}
                       </p>
                     </div>
@@ -110,26 +118,50 @@ const UserUpcomingBookings = () => {
                         <span className="font-semibold">Number of guests:</span>{" "}
                         {bookingDetails.party_size}
                       </p>
-                      <p>
+                      <p className="hidden lg:inline-flex">
                         <span className="font-semibold">
                           Booking reference:
                         </span>{" "}
                         {bookingDetails.id}
                       </p>
-                      <div className="flex items-center justify-start mt-2 space-x-1">
-                        <button
-                          onClick={() => handleEditClicked(bookingDetails.id)}
-                          className="px-3 py-1 text-white transition-colors duration-150 bg-black rounded-md active:scale-95 hover:bg-gray-50 hover:text-black"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleCancelClicked(bookingDetails.id)}
-                          className="px-3 py-1 text-white transition-colors duration-150 bg-red-800 rounded-md active:scale-95 hover:bg-red-400 hover:text-black"
-                        >
-                          Cancel
-                        </button>
-                      </div>
+                      {bookingDetails.reservation_status === "cancelled" ? (
+                        <div className="flex items-center justify-start mt-2 space-x-1">
+                          <p className="px-3 py-1 text-red-900 bg-gray-200 rounded-md cursor-not-allowed">
+                            cancelled
+                          </p>
+                          <Link
+                            href={`/restaurants/${bookingDetails.restaurant_id}`}
+                          >
+                            <a className="hidden px-3 py-1 text-white transition duration-150 ease-out transform bg-black rounded-md cursor-pointer sm:inline-flex hover:bg-white hover:text-red-800 active:scale-90">
+                              Book Again
+                            </a>
+                          </Link>
+                          <Link
+                            href={`/restaurants/${bookingDetails.restaurant_id}`}
+                          >
+                            <a className="px-2 py-1 text-white transition duration-150 ease-out transform bg-black rounded-md cursor-pointer sm:hidden hover:bg-white hover:text-red-800 active:scale-90">
+                              Rebook
+                            </a>
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-start mt-2 space-x-1">
+                          <button
+                            onClick={() => handleEditClicked(bookingDetails.id)}
+                            className="px-3 py-1 text-white transition-colors duration-150 bg-black rounded-md active:scale-95 hover:bg-gray-50 hover:text-black"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleCancelClicked(bookingDetails.id)
+                            }
+                            className="px-3 py-1 text-white transition-colors duration-150 bg-red-800 rounded-md active:scale-95 hover:bg-red-400 hover:text-black"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="relative md:h-full md:w-1/3">

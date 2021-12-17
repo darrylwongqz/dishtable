@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 // import getCenter from "geolib/es/getCenter";
+import Image from "next/image";
 
 const Map = ({ searchResults }) => {
   const [selectedLocation, setSelectedLocation] = useState({});
@@ -18,13 +19,22 @@ const Map = ({ searchResults }) => {
   //   "restaurant_location_lat": 1.311199,
   // "restaurant_location_long": 103.8611239,
 
+  // const firstRestaurantLat = parseFloat(searchResults.restaurants[0].restaurant_location_lat)
+  // const firstRestaurantLong = parseFloat(
+  //   searchResults.restaurants[0].restaurant_location_long
+  // )
+
+  console.log(searchResults);
+
   const [viewport, setViewport] = useState({
     width: "100%",
     height: "100%",
     // latitude: center.latitude,
     // longitude: center.longitude,
-    latitude: searchResults[0].restaurant_location_lat,
-    longitude: searchResults[0].restaurant_location_long,
+    latitude: parseFloat(searchResults.restaurants[0].restaurant_location_lat),
+    longitude: parseFloat(
+      searchResults.restaurants[0].restaurant_location_long
+    ),
     zoom: 13,
   });
 
@@ -35,11 +45,11 @@ const Map = ({ searchResults }) => {
       {...viewport}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
     >
-      {searchResults.map((result) => (
+      {searchResults?.restaurants.map((result) => (
         <div key={result.restaurant_location_long}>
           <Marker
-            longitude={result.restaurant_location_long}
-            latitude={result.restaurant_location_lat}
+            longitude={parseFloat(result.restaurant_location_long)}
+            latitude={parseFloat(result.restaurant_location_lat)}
             offsetLeft={-20}
             offsetTop={-10}
           >
@@ -59,10 +69,21 @@ const Map = ({ searchResults }) => {
             <Popup
               onClose={() => setSelectedLocation({})}
               closeOnClick={true}
-              latitude={result.restaurant_location_lat}
-              longitude={result.restaurant_location_long}
+              latitude={parseFloat(result.restaurant_location_lat)}
+              longitude={parseFloat(result.restaurant_location_long)}
+              className="relative overflow-hidden rounded-lg"
             >
-              {result.restaurant_name}
+              {/* {result.restaurant_name} */}
+              <div className="w-40 h-24">
+                <Image
+                  src={result.restaurant_image[0]}
+                  objectFit="cover"
+                  layout="fill"
+                />
+                <h2 className="absolute px-2 text-white bg-red-600 rounded-md bottom-2">
+                  {result.restaurant_name}
+                </h2>
+              </div>
             </Popup>
           ) : (
             false

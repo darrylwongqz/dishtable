@@ -11,6 +11,7 @@
     "axios": "^0.24.0",
     "date-fns": "^2.27.0",
     "geolib": "^3.3.3",
+    "lodash": "^4.17.21",
     "next": "latest",
     "next-auth": "^4.0.5",
     "nextjs-cors": "^2.1.0",

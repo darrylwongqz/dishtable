@@ -12,8 +12,8 @@ const Login = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  console.log("logging session", session);
-  console.log("logging status", status);
+  // console.log("logging session", session);
+  // console.log("logging status", status);
 
   const isInvalid = password === "" || email === "";
 

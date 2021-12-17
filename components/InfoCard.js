@@ -55,7 +55,9 @@ const InfoCard = ({
             {cuisineType[1]}
           </p>
         </div>
-        <p className="flex-grow pt-2 text-sm text-gray-500 ">{description}</p>
+        <p className="flex-grow pt-2 text-sm text-gray-500 ">
+          {description.substr(0, 100) + "..."}
+        </p>
         <div className="flex items-end pt-2">
           <p className="flex items-center">{convertedCost}</p>
         </div>

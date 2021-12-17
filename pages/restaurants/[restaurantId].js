@@ -30,11 +30,11 @@ const RestaurantDetailPage = ({ restaurantDetails }) => {
   const timePickerRef = useRef(null);
   const { data: session } = useSession();
 
-  console.log("current user session", session);
+  // console.log("current user session", session);
 
   // console.log(router.query.restaurantId);
 
-  console.log("component rendered", restaurantDetails);
+  // console.log("component rendered", restaurantDetails);
   // console.log(availableTimes);
 
   const {

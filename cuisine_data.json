@@ -1,52 +1,52 @@
 [
     {
-        "id": 1,
-        "cuisine_type": "Italian",
-        "cuisine_image": "https://i.ibb.co/C7j8sr5/photo-1595295333158-4742f28fbd85-ixlib-rb-1-2.jpg"
+    "id": 1,
+    "cuisine_type": "Italian",
+    "cuisine_image": "https://i.ibb.co/C7j8sr5/photo-1595295333158-4742f28fbd85-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 2,
-        "cuisine_type": "Chinese",
-        "cuisine_image": "https://i.ibb.co/Khrk9td/photo-1563245372-f21724e3856d-ixlib-rb-1-2.jpg"
+    "id": 2,
+    "cuisine_type": "Chinese",
+    "cuisine_image": "https://i.ibb.co/Khrk9td/photo-1563245372-f21724e3856d-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 3,
-        "cuisine_type": "Indian",
-        "cuisine_image": "https://i.ibb.co/SVGYH1z/photo-1596797038530-2c107229654b-ixlib-rb-1-2.jpg"
+    "id": 3,
+    "cuisine_type": "Halal",
+    "cuisine_image": "https://i.ibb.co/zSjvsgz/best-halal-restaurants-in-orchard-F.jpg"
     },
     {
-        "id": 4,
-        "cuisine_type": "American",
-        "cuisine_image": "https://i.ibb.co/9ZTSnhp/photo-1550950158-d0d960dff51b-ixlib-rb-1-2.jpg"
+    "id": 4,
+    "cuisine_type": "American",
+    "cuisine_image": "https://i.ibb.co/9ZTSnhp/photo-1550950158-d0d960dff51b-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 5,
-        "cuisine_type": "Middle Eastern",
-        "cuisine_image": "https://i.ibb.co/tXZvF76/photo-1511690656952-34342bb7c2f2-ixlib-rb-1-2.jpg"
+    "id": 5,
+    "cuisine_type": "Middle Eastern",
+    "cuisine_image": "https://i.ibb.co/tXZvF76/photo-1511690656952-34342bb7c2f2-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 6,
-        "cuisine_type": "Korean",
-        "cuisine_image": "https://i.ibb.co/zbqRg0f/photo-1498654896293-37aacf113fd9-ixlib-rb-1-2.jpg"
+    "id": 6,
+    "cuisine_type": "Korean",
+    "cuisine_image": "https://i.ibb.co/zbqRg0f/photo-1498654896293-37aacf113fd9-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 7,
-        "cuisine_type": "Singaporean",
-        "cuisine_image": "https://i.ibb.co/vwb3G4g/hainanese-chicken-rice-singapore-malaysia-0001.jpg"
+    "id": 7,
+    "cuisine_type": "Singaporean",
+    "cuisine_image": "https://i.ibb.co/vwb3G4g/hainanese-chicken-rice-singapore-malaysia-0001.jpg"
     },
     {
-        "id": 8,
-        "cuisine_type": "Halal",
-        "cuisine_image": "https://i.ibb.co/zSjvsgz/best-halal-restaurants-in-orchard-F.jpg"
+    "id": 8,
+    "cuisine_type": "Teochew",
+    "cuisine_image": "https://i.ibb.co/sb5Jj5S/Teochew-dishes-Pao-fan.jpg"
     },
     {
-        "id": 9,
-        "cuisine_type": "International",
-        "cuisine_image": "https://i.ibb.co/GTV2QTf/photo-1506084868230-bb9d95c24759-ixlib-rb-1-2.jpg"
+    "id": 9,
+    "cuisine_type": "International",
+    "cuisine_image": "https://i.ibb.co/GTV2QTf/photo-1506084868230-bb9d95c24759-ixlib-rb-1-2.jpg"
     },
     {
-        "id": 10,
-        "cuisine_type": "Teochew",
-        "cuisine_image": "https://i.ibb.co/sb5Jj5S/Teochew-dishes-Pao-fan.jpg"
+    "id": 10,
+    "cuisine_type": "Indian",
+    "cuisine_image": "https://i.ibb.co/SVGYH1z/photo-1596797038530-2c107229654b-ixlib-rb-1-2.jpg"
     }
-]
+    ]

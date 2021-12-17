@@ -12,27 +12,49 @@ import { Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { activatedNavState, geoState } from "../../atoms/navAtom";
 
 const NavBar = () => {
-  const [solidNavBar, setSolidNavBar] = useState(true); // remember to change to false after done with search bar dev
-  const [isSearchActivated, setIsSearchActivated] = useState(false); // remember to change to false after done with search bar dev
-  const [geo, setGeo] = useState("SG");
+  const [solidNavBar, setSolidNavBar] = useState(false); // remember to change to false after done with search bar dev
+  const [isSearchActivated, setIsSearchActivated] =
+    useRecoilState(activatedNavState); // remember to change to false after done with search bar dev
+  const [geo, setGeo] = useRecoilState(geoState);
   const [searchInput, setSearchInput] = useState("Start your search");
   const router = useRouter();
   const { data: session } = useSession();
 
   // console.log(session);
-  // const changeNavBackground = () => { // remember to uncomment after done with search bar dev
-  //   if (window.scrollY >= 200) {
-  //     setSolidNavBar(true);
-  //   } else {
-  //     setSolidNavBar(false);
-  //   }
-  // };
+
+  useEffect(() => {
+    setIsSearchActivated(false);
+  }, []);
+
+  const changeNavBackground = () => {
+    // remember to uncomment after done with search bar dev
+    setIsSearchActivated(false);
+    if (window.scrollY >= 200) {
+      setSolidNavBar(true);
+    } else {
+      setSolidNavBar(false);
+    }
+  };
 
   // useEffect(() => {
   //   window.addEventListener("scroll", changeNavBackground);
   // }, []);
+
+  useEffect(() => {
+    if (router.pathname !== "/") {
+      setSolidNavBar(true);
+    }
+    if (isSearchActivated) {
+      setSolidNavBar(true);
+    }
+    if (router.pathname === "/") {
+      window.addEventListener("scroll", changeNavBackground);
+    }
+  }, [isSearchActivated]);
 
   useEffect(() => {
     switch (router.pathname) {
@@ -40,11 +62,7 @@ const NavBar = () => {
         return setSearchInput("Start your search");
       case "/search":
         return setSearchInput(
-          `${router.query.city} | ${router.query.date} |  ${
-            router.query.time
-          } | ${router.query.party_size} ${
-            Number(router.query.party_size) === 1 ? "guest" : "guests"
-          }`
+          `${router.query.city} | ${router.query.date} |  ${router.query.time} | ${router.query.party_size} pax`
         );
 
       default:
@@ -59,17 +77,20 @@ const NavBar = () => {
           ? `fixed top-0 z-50 grid items-center grid-cols-3 p-5 bg-white shadow-md md:px-10 header w-full duration-500 transition-colors ${
               isSearchActivated && "pt-6 pb-[6.5rem]"
             }`
-          : `fixed top-0 z-50 grid w-full grid-cols-2 p-5 md:px-10 pt-6`
+          : `fixed top-0 z-50 grid w-full grid-cols-3 p-5 md:px-10 pt-6`
       }
     >
       {/* Left */}
       <Link href="/">
-        <div className="relative flex items-center h-10 my-auto cursor-pointer">
+        <div
+          onClick={() => setIsSearchActivated(false)}
+          className="relative flex items-center h-10 my-auto cursor-pointer"
+        >
           <Image
             src={
               solidNavBar
-                ? `/images/dishtable_logo_lightbackground.png`
-                : `/images/dishtable_logo_darkbackground.png`
+                ? `https://i.ibb.co/pxF5TYd/dishtable-logo-lightbackground.png`
+                : `https://i.ibb.co/G5hrQNr/dishtable-logo-darkbackground.png`
             }
             alt="Dishtable logo"
             layout="fill"
@@ -122,12 +143,12 @@ const NavBar = () => {
       >
         <Listbox as="div" value={geo} onChange={setGeo} className="relative">
           <Listbox.Button>
-            <div className="flex space-x-1">
+            <div className="flex items-center space-x-1">
               <GlobeAltIcon className={`h-6 cursor-pointer`} />
               <h3>{geo}</h3>
             </div>
           </Listbox.Button>
-          <Listbox.Options className="absolute space-y-2 bg-white shadow-2xl left-4 top-10 rounded-xl z-100">
+          <Listbox.Options className="absolute space-y-2 text-gray-800 bg-white shadow-2xl left-4 top-10 rounded-xl z-100">
             <Listbox.Option
               className="px-3 py-1 bg-white rounded-xl hover:bg-gray-200"
               value="SG"
@@ -155,19 +176,27 @@ const NavBar = () => {
           </Listbox.Options>
         </Listbox>
 
-        <div className="flex items-center p-2 space-x-2 border-2 rounded-full">
-          <MenuIcon className="h-6 " />
+        <div
+          onClick={() => setIsSearchActivated(false)}
+          className="flex items-center p-2 space-x-2 sm:border-2 sm:rounded-full"
+        >
+          <MenuIcon className="h-6" />
+
           {session?.user ? (
-            <Link href={`/user/${session.user.id}/upcoming-bookings`}>
-              <Image
-                src={session.user.profile_picture}
-                width={30}
-                height={30}
-                className="rounded-full cursor-pointer"
-              />
-            </Link>
+            <div className="hidden sm:flex">
+              <Link href={`/user/${session.user.id}/upcoming-bookings`}>
+                <Image
+                  src={session.user.profile_picture}
+                  width={30}
+                  height={30}
+                  className="rounded-full cursor-pointer"
+                />
+              </Link>
+            </div>
           ) : (
-            <UserCircleIcon className="h-6 text-red-600" />
+            <Link href="/login">
+              <UserCircleIcon className="h-6 text-red-600 cursor-pointer" />
+            </Link>
           )}
         </div>
       </div>

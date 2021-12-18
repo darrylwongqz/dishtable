@@ -34,7 +34,6 @@ The following is simple Entity Relationship Diagram for our project:
 ## Project Status
 Project is: _complete_ 
 ## Room for Improvement
-Room for improvement:
 - 
 Potential To do:
 - Build a simple restaurant management app for restaurants to view reservations for the venue 
